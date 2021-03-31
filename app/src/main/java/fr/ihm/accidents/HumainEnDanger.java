@@ -21,7 +21,7 @@ public class HumainEnDanger extends AppCompatActivity
         final TextView humainEnDangerTextView = (TextView) findViewById(R.id.textView2);
 
         final Button button4 = findViewById(R.id.button4);
-        button4.setBackgroundColor(Color.GRAY);
+        button4.setBackgroundColor(Color.GREEN);
         button4.setTextColor(Color.BLACK);
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -30,7 +30,7 @@ public class HumainEnDanger extends AppCompatActivity
         });
 
         final Button button5 = findViewById(R.id.button5);
-        button5.setBackgroundColor(Color.MAGENTA);
+        button5.setBackgroundColor(Color.RED);
         button5.setTextColor(Color.BLACK);
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
