@@ -7,16 +7,17 @@
         tools:context=".MainActivity">
 
     <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text="Autorisez-vous la géolocalisation ?"
+            android:layout_width="368dp"
+            android:layout_height="95dp"
             android:id="@+id/text_view_id"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/button_id"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintVertical_bias="0.808" />
+            app:layout_constraintVertical_bias="0.781"
+            android:textSize="36sp"
+            android:textAlignment="center" />
 
     <Button
             android:text="Autoriser"
@@ -26,8 +27,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.87"
-            app:layout_constraintBottom_toTopOf="@+id/button_id2" />
+            app:layout_constraintVertical_bias="0.948"
+            app:layout_constraintBottom_toTopOf="@+id/button_id2"
+            android:textSize="36sp" />
 
     <Button
             android:text="Refuser"
@@ -38,7 +40,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.524"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintVertical_bias="0.544"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="36sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
