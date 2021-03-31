@@ -18,14 +18,15 @@ public class VictimeTemoin extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victime_temoin);
 
-        final TextView geolocalisationTextView = (TextView) findViewById(R.id.textView);
+        final TextView victimeTemoinTextView = (TextView) findViewById(R.id.textView);
 
         final Button button = findViewById(R.id.button);
         button.setBackgroundColor(Color.GRAY);
         button.setTextColor(Color.BLACK);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intentHumainEnDanger = new Intent(VictimeTemoin.this, HumainEnDanger.class);
+                startActivity(intentHumainEnDanger);
             }
         });
 
@@ -34,7 +35,18 @@ public class VictimeTemoin extends AppCompatActivity
         button2.setTextColor(Color.BLACK);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent intentHumainEnDanger = new Intent(VictimeTemoin.this, HumainEnDanger.class);
+                startActivity(intentHumainEnDanger);
+            }
+        });
 
+        final Button button3 = findViewById(R.id.button3);
+        button3.setBackgroundColor(Color.BLUE);
+        button3.setTextColor(Color.WHITE);
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentMainActivity = new Intent(VictimeTemoin.this, MainActivity.class);
+                startActivity(intentMainActivity);
             }
         });
     }
