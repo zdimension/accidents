@@ -48,5 +48,13 @@ public class VictimeTemoin extends AppCompatActivity
                 startActivity(intentMainActivity);
             }
         });
+
+        final Button testNotification = findViewById(R.id.test_notification);
+        testNotification.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentMainActivity = new Intent(VictimeTemoin.this, NotificationActivity.class);
+                startActivity(intentMainActivity);
+            }
+        });
     }
 }

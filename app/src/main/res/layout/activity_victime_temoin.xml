@@ -53,4 +53,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
+            android:text="Test Notification"
+            android:layout_width="243dp"
+            android:layout_height="39dp"
+            android:id="@+id/test_notification"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
