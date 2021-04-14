@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="fr.ihm.accidents">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application
             android:name=".DemarageAplication"
             android:allowBackup="true"
@@ -10,7 +12,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.Accidents">
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".NotificationActivity" />
         <activity android:name=".HumainEnDanger" />
         <activity android:name=".VictimeTemoin" />
         <activity android:name=".MainActivity">

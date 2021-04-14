@@ -39,7 +39,7 @@ public class VictimeTemoin extends AppCompatActivity
             }
         });
 
-        final Button button3 = findViewById(R.id.button3);
+        /*final Button button3 = findViewById(R.id.button3);
         button3.setBackgroundColor(Color.BLUE);
         button3.setTextColor(Color.WHITE);
         button3.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +47,7 @@ public class VictimeTemoin extends AppCompatActivity
                 Intent intentMainActivity = new Intent(VictimeTemoin.this, MainActivity.class);
                 startActivity(intentMainActivity);
             }
-        });
+        });*/
 
         final Button testNotification = findViewById(R.id.test_notification);
         testNotification.setOnClickListener(new View.OnClickListener() {
