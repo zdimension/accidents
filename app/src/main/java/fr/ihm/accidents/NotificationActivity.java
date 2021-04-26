@@ -32,18 +32,18 @@ public class NotificationActivity extends AppCompatActivity {
                 int progress = seekBar.getProgress()*3;
                 if(progress<50)
                 {
-                    String title = "Un accdient très proche de vous!";
-                    String text = "Un accdient à été repoté a une distance de " + progress + " m de vous";
+                    String title = "Un accident très proche de vous!";
+                    String text = "Un accident à été reporté a une distance de " + progress + " m de vous";
                     sendNotificationOnChannel(title, text, CHANNEL_ID_HIGH, NotificationCompat.PRIORITY_HIGH);
                 }
                 else if(progress<100){
-                    String title = "Un accdient près de vous!";
-                    String text = "Un accdient à été repoté a une distance de " + progress + " m de vous";
+                    String title = "Un accident près de vous!";
+                    String text = "Un accident à été reporté a une distance de " + progress + " m de vous";
                     sendNotificationOnChannel(title, text, CHANNEL_ID_DEFAULT, NotificationCompat.PRIORITY_DEFAULT);
                 }
                 else if(progress<250){
-                    String title = "Un accdient proche de vous";
-                    String text = "Un accdient à été repoté a une distance de " + progress + " m de vous";
+                    String title = "Un accident proche de vous";
+                    String text = "Un accident à été reporté a une distance de " + progress + " m de vous";
                     sendNotificationOnChannel(title, text, CHANNEL_ID_LOW, NotificationCompat.PRIORITY_LOW);
                 }
             }

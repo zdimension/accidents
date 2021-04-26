@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -31,5 +35,13 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.wear:wear:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // implementation project(path: ':app')
     compileOnly 'com.google.android.wearable:wearable:2.8.1'
+    implementation 'androidx.core:core:1.2.0'
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.google.android.support:wearable:1.2.0'
+    compileOnly 'com.google.android.wearable:wearable:1.0.0'
+    api 'com.google.android.gms:play-services-maps:17.0.0'
 }

@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.marcelmarsaislacoste.accidents_wearos">
+        package="com.marcelmarsaislacoste.accidents_wearos">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.type.watch" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
-        <uses-library
-            android:name="com.google.android.wearable"
-            android:required="true" />
+    <uses-feature android:name="android.hardware.location" android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@android:style/Theme.DeviceDefault">
+        <activity android:name=".Map"></activity>
+
+        <uses-library
+                android:name="com.google.android.wearable"
+                android:required="false" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
+
         <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+                android:name=".MainActivity"
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
