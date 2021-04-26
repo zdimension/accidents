@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static com.marcelmarsaislacoste.accidents_wearos.Application.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,8 +56,9 @@ public class MapFragment extends SupportMapFragment
     @Override
     public void onStart() {
         super.onStart();
-        currentLocation = new LatLng(43.72679, 7.11952);
-        zoomValue = 16;
+        // currentLocation = new LatLng(43.72679, 7.11952);
+        currentLocation = new LatLng(LAT_LNG1.latitude, LAT_LNG1.longitude);
+        zoomValue = 15;
         Log.d(TAG,"onCreate()   -> currentLocation=("+currentLocation.latitude+","+currentLocation.longitude+")");
     }
 
