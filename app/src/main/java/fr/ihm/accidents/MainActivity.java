@@ -6,10 +6,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }*/
+
+
+        startForegroundService(new Intent(this, WebService.class));
     }
 
     private void goToVictimeTemoinActivity() {
