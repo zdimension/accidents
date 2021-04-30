@@ -16,6 +16,7 @@ import static fr.ihm.accidents.DemarageAplication.*;
 
 public class NotificationActivity extends AppCompatActivity {
     private int notificationNumber =0;
+    private String GroupeNotification = "GroupeNotification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,11 +79,22 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     public void sendNotificationOnChannel(String title, String description, String channelID, int priority){
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), channelID)
-            .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle(title)
-            .setContentText(description)
-            .setPriority(priority);
+        NotificationCompat.Builder notification;
+        if(priority == NotificationCompat.PRIORITY_HIGH){
+            notification = new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(description)
+                .setPriority(priority);
+        }
+        else{
+            notification = new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(description)
+                .setPriority(priority)
+                .setGroup(GroupeNotification);
+        }
         NotificationManagerCompat.from(this).notify(notificationNumber++ , notification.build());
     }
 }
