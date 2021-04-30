@@ -1,12 +1,8 @@
 package fr.ihm.accidents;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
-import android.app.job.JobParameters;
-import android.app.job.JobService;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -14,7 +10,6 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

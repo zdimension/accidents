@@ -34,7 +34,8 @@ public class HumainEnDanger extends AppCompatActivity
         button5.setTextColor(Color.BLACK);
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent natureAccident = new Intent(HumainEnDanger.this, AccidentNature.class);
+                HumainEnDanger.this.startActivity(natureAccident);
             }
         });
 
