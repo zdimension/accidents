@@ -54,8 +54,8 @@ public class MoreDetails extends AppCompatActivity {
 
         Button nextButton = findViewById(R.id.next_step);
         nextButton.setOnClickListener(v -> {
-            //Intent intent = new Intent(MoreDetails.this, AccidentNature.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MoreDetails.this, MapsActivity.class);
+            startActivity(intent);
         });
 
         this.imgLocs = findViewById(R.id.photos_locations);
