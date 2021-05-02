@@ -25,7 +25,8 @@ public class VictimeTemoin extends AppCompatActivity
         button.setTextColor(Color.BLACK);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intentVictimCallActivity = new Intent(VictimeTemoin.this, VictimCallActivity.class);
+                startActivity(intentVictimCallActivity);
             }
         });
 
