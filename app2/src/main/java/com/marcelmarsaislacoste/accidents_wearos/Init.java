@@ -249,9 +249,8 @@ public class Init extends Application {
 
         double distance = Math.acos(Math.sin(Math.toRadians(LAT_LNG1.latitude))*Math.sin(Math.toRadians(LAT_LNG2.latitude))+Math.cos(Math.toRadians(LAT_LNG1.latitude))*Math.cos(Math.toRadians(LAT_LNG2.latitude))*Math.cos(Math.toRadians(LAT_LNG2.longitude)-Math.toRadians(LAT_LNG1.longitude)))*6371*1000;
 
-        Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
-
         if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
+            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
             if (distance < 1000) {
                 Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
             }

@@ -20,27 +20,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hello_world"/>-->
+        <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <Button
+                    android:id="@+id/notif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test notifications"/>
+            <Button
+                    android:id="@+id/report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Signaler"/>
+            <Button
+                    android:id="@+id/toGoogleMap"
+                    android:text="Map"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
     </FrameLayout>
-
-    <Button
-            android:id="@+id/toGoogleMap"
-            android:text="Map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2sp"
-            android:layout_marginTop="100dp"/>
-
-    <Button
-            android:id="@+id/notif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notify Me"
-            android:onClick="notifyme"/>
-
-    <Button
-            android:id="@+id/speak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notify Me"
-            android:onClick="notifyme"/>
 </androidx.wear.widget.BoxInsetLayout>

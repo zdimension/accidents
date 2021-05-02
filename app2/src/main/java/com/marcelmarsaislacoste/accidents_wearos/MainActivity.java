@@ -50,6 +50,8 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
     // private LatLng oLatLng1 = new LatLng(37.422998333333335, -122.08500000000002);
     // private LatLng oLatLng2 = new LatLng(37.423998333333335, -122.08600000000002);
 
+    private Location location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,6 +79,14 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, Init.MY_DATA_CHECK_CODE);
+
+        ((Button)findViewById(R.id.notif)).setOnClickListener(click -> {
+            Init.notifyme(((Button)findViewById(R.id.notif)), this);
+        });
+
+        ((Button)findViewById(R.id.report)).setOnClickListener(click -> {
+            Toast.makeText(this, "Position de l'accident envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_LONG).show();
+        });
 
         /*int notificationId = 001;
         // The channel ID of the notification.
@@ -235,6 +245,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        this.location = location;
         Init.locationChanged(this, location);
     }
 }
