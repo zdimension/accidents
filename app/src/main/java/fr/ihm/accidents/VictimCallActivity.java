@@ -65,7 +65,6 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        /*((TextView)findViewById(R.id.localisationInfos)).setText("Longitude : " + ((location==null)?"Nan":location.getLongitude()) + "\nLatitude : " + ((location==null)?"NaN":location.getLatitude()));*/
-        ((TextView)findViewById(R.id.localisationInfos)).setText("Longitude : " + location.getLongitude() + "\nLatitude : " + location.getLatitude());
+        ((TextView)findViewById(R.id.localisationInfos)).setText("Longitude : " + ((location==null)?"NaN":location.getLongitude()) + "\nLatitude : " + ((location==null)?"NaN":location.getLatitude()));
     }
 }
