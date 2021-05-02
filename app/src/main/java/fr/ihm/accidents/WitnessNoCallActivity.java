@@ -28,11 +28,11 @@ import java.util.Locale;
 public class WitnessNoCallActivity extends AppCompatActivity implements LocationListener
 {
 
+    ToggleButton toggleButtonFirstAidGestures;
+    ImageView firstAidGesturesImg;
     private ToggleButton toggleButtonInfosToGive;
     private TextView infosToGiveText;
     private Geocoder geocoder;
-    ToggleButton toggleButtonFirstAidGestures;
-    ImageView firstAidGesturesImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,25 +40,34 @@ public class WitnessNoCallActivity extends AppCompatActivity implements Location
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_witness_no_call);
 
-        toggleButtonInfosToGive = (ToggleButton)findViewById(R.id.infosToGiveToggleWitnessNoCall);
-        infosToGiveText = (TextView)findViewById(R.id.infosToGiveTextWitnessNoCall);
-        infosToGiveText.setText(Html.fromHtml("<h2>Où vous trouvez-vous ?</h2><p>Indiquez le lieu le plus précisément " +
+        toggleButtonInfosToGive = findViewById(R.id.infosToGiveToggleWitnessNoCall);
+        infosToGiveText = findViewById(R.id.infosToGiveTextWitnessNoCall);
+        infosToGiveText.setText(Html.fromHtml("<h2>Où vous trouvez-vous ?</h2><p>Indiquez le lieu" +
+            " le plus précisément " +
             "possible pour permettre aux secours de vous trouver rapidement (ville, rue, numéro, " +
             " etc.).</p>" +
-            "<h2>Que se passe-t-il ?</h2><p>Indiquez la nature du problème (feu, malaise, accident, etc.), " +
+            "<h2>Que se passe-t-il ?</h2><p>Indiquez la nature du problème (feu, malaise, " +
+            "accident, etc.), " +
             "le nombre et l'état des victimes.</p>" +
-            "<h2>Y a-t-il un risque que les choses s’aggravent ?</h2><p>Evoquez les risques éventuels " +
+            "<h2>Y a-t-il un risque que les choses s’aggravent ?</h2><p>Evoquez les risques " +
+            "éventuels " +
             "d’incendie, d’explosion ou d’effondrement ;<br>" +
             "Répondez aux questions qui vous seront posées par la personne que vous aurez au " +
             "téléphone.</p>" +
-            "<h3>Ne raccrochez jamais le premier !</h3><p>La personne qui a pris en charge votre appel vous " +
+            "<h3>Ne raccrochez jamais le premier !</h3><p>La personne qui a pris en charge votre " +
+            "appel vous " +
             "dira quand elle a toutes les informations nécessaires. Donnez votre numéro de " +
-            "téléphone et si possible, restez sur place, en sécurité, pour guider les secours.</p>", HtmlCompat.FROM_HTML_MODE_LEGACY));
-        toggleButtonInfosToGive.setOnClickListener(click -> {
-            if (toggleButtonInfosToGive.isChecked()) {
+            "téléphone et si possible, restez sur place, en sécurité, pour guider les secours" +
+            ".</p>", HtmlCompat.FROM_HTML_MODE_LEGACY));
+        toggleButtonInfosToGive.setOnClickListener(click ->
+        {
+            if (toggleButtonInfosToGive.isChecked())
+            {
                 toggleButtonInfosToGive.setChecked(true);
                 infosToGiveText.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else
+            {
                 toggleButtonInfosToGive.setChecked(false);
                 infosToGiveText.setVisibility(View.GONE);
             }
@@ -66,13 +75,18 @@ public class WitnessNoCallActivity extends AppCompatActivity implements Location
 
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        toggleButtonFirstAidGestures = (ToggleButton)findViewById(R.id.firsttAidGesturesToggleWitnessNoCall);
-        firstAidGesturesImg = (ImageView)findViewById(R.id.firsttAidGesturesPngWitnessNoCall);
-        toggleButtonFirstAidGestures.setOnClickListener(click -> {
-            if (toggleButtonFirstAidGestures.isChecked()) {
+        toggleButtonFirstAidGestures =
+            findViewById(R.id.firsttAidGesturesToggleWitnessNoCall);
+        firstAidGesturesImg = findViewById(R.id.firsttAidGesturesPngWitnessNoCall);
+        toggleButtonFirstAidGestures.setOnClickListener(click ->
+        {
+            if (toggleButtonFirstAidGestures.isChecked())
+            {
                 toggleButtonFirstAidGestures.setChecked(true);
                 firstAidGesturesImg.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else
+            {
                 toggleButtonFirstAidGestures.setChecked(false);
                 firstAidGesturesImg.setVisibility(View.GONE);
             }
@@ -81,21 +95,21 @@ public class WitnessNoCallActivity extends AppCompatActivity implements Location
         final Button previous = findViewById(R.id.previousWitnessNoCall);
         previous.setBackgroundColor(Color.BLUE);
         previous.setTextColor(Color.WHITE);
-        previous.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentVictimeTemoin = new Intent(WitnessNoCallActivity.this, MoreDetails.class);
-                startActivity(intentVictimeTemoin);
-            }
+        previous.setOnClickListener(v ->
+        {
+            Intent intentVictimeTemoin = new Intent(WitnessNoCallActivity.this,
+                MoreDetails.class);
+            startActivity(intentVictimeTemoin);
         });
 
         final Button cancel = findViewById(R.id.cancelWitnessNoCall);
         cancel.setBackgroundColor(Color.BLUE);
         cancel.setTextColor(Color.WHITE);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentVictimeTemoin = new Intent(WitnessNoCallActivity.this, VictimeTemoin.class);
-                startActivity(intentVictimeTemoin);
-            }
+        cancel.setOnClickListener(v ->
+        {
+            Intent intentVictimeTemoin = new Intent(WitnessNoCallActivity.this,
+                VictimeTemoin.class);
+            startActivity(intentVictimeTemoin);
         });
     }
 
@@ -108,67 +122,85 @@ public class WitnessNoCallActivity extends AppCompatActivity implements Location
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == DemarageAplication.PERMS_CALL_ID) {
+        if (requestCode == DemarageAplication.PERMS_CALL_ID)
+        {
             DemarageAplication.checkPermissions(this);
         }
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
 
-        if (DemarageAplication.lm != null) {
+        if (DemarageAplication.lm != null)
+        {
             DemarageAplication.lm.removeUpdates(this);
         }
     }
 
     @Override
-    public void onProviderEnabled(@NonNull String provider) {
+    public void onProviderEnabled(@NonNull String provider)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(@NonNull String provider) {
+    public void onProviderDisabled(@NonNull String provider)
+    {
 
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
 
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
+    public void onLocationChanged(@NonNull Location location)
+    {
         List<Address> adresses = null;
         String addressStr = "";
-        try {
+        try
+        {
             adresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         }
-        catch (IOException ioException) {
+        catch (IOException ioException)
+        {
             Log.e("GPS", "erreur", ioException);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            String coordonnees = String.format("Latitude : %f - Longitude : %f\n", location.getLatitude(), location.getLongitude());
+        }
+        catch (IllegalArgumentException illegalArgumentException)
+        {
+            String coordonnees = String.format("Latitude : %f - Longitude : %f\n",
+                location.getLatitude(), location.getLongitude());
             Log.e("GPS", "Error: " + coordonnees, illegalArgumentException);
         }
 
-        if (adresses == null || adresses.size()  == 0)  {
+        if (adresses == null || adresses.size() == 0)
+        {
             Log.e("GPS", "Error: no address!!");
-        } else {
+        }
+        else
+        {
             Address adresse = adresses.get(0);
-            ArrayList<String> addressFragments = new ArrayList<String>();
+            ArrayList<String> addressFragments = new ArrayList<>();
 
             String strAdresse = adresse.getAddressLine(0) + ", " + adresse.getLocality();
             Log.d("GPS", "address : " + strAdresse);
 
-            for(int i = 0; i <= adresse.getMaxAddressLineIndex(); i++) {
+            for (int i = 0; i <= adresse.getMaxAddressLineIndex(); i++)
+            {
                 addressFragments.add(adresse.getAddressLine(i));
             }
             Log.d("GPS", TextUtils.join(System.getProperty("line.separator"), addressFragments));
             addressStr = TextUtils.join(System.getProperty("line.separator"), addressFragments);
         }
-        ((TextView)findViewById(R.id.locationInfosWitnessNoCall)).setText("Longitude : " + ((location==null)?"NaN":location.getLongitude()) + "\nLatitude : " + ((location==null)?"NaN":location.getLatitude()) + ((addressStr=="")?"":"\n" + addressStr));
+        ((TextView) findViewById(R.id.locationInfosWitnessNoCall)).setText("Longitude : " + ((location == null) ? "NaN" : location.getLongitude()) + "\nLatitude : " + ((location == null) ? "NaN" : location.getLatitude()) + ((addressStr.equals("")) ? "" : "\n" + addressStr));
     }
 }

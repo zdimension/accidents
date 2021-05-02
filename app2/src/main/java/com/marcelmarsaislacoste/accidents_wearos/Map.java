@@ -1,40 +1,22 @@
 package com.marcelmarsaislacoste.accidents_wearos;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -48,8 +30,6 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
     private GoogleMap mMap;
     private MapFragment mapFragment;
 
-    private PendingIntent pendingIntent;
-
     /*private double lat1 = 37.422998333333335;
     private double lon1 = -122.08500000000002;*/
     // private LatLng oLatLng1 = new LatLng(37.422998333333335, -122.08500000000002);
@@ -61,10 +41,8 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
         setContentView(R.layout.activity_map);
 
         Intent intentQuit = new Intent(getApplicationContext(), MainActivity.class);
-        ((TextView) findViewById(R.id.quitGoogleMap)).setOnClickListener(click ->
-        {
-            startActivity(intentQuit);
-        });
+        findViewById(R.id.quitGoogleMap).setOnClickListener(click ->
+            startActivity(intentQuit));
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null)
@@ -77,7 +55,7 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-        pendingIntent = PendingIntent.getActivity(Map.this,0,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(Map.this, 0, intent, 0);
 
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -93,10 +71,8 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
     @SuppressWarnings("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnCameraMoveListener((GoogleMap.OnCameraMoveListener) () ->
-        {
-            mapFragment.setCurrentLocation(mMap.getCameraPosition().target);
-        });
+        mMap.setOnCameraMoveListener(() ->
+            mapFragment.setCurrentLocation(mMap.getCameraPosition().target));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapFragment.getPosition(), mapFragment.getZoom()));
         mMap.setMyLocationEnabled(true);
         /*mMap.addMarker(new MarkerOptions().position(new LatLng(43.72679, 7.11952))

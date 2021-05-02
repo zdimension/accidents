@@ -6,22 +6,26 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class VehicleNature extends AppCompatActivity {
+public class VehicleNature extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_nature);
 
         Button restartButton = findViewById(R.id.restart);
-        restartButton.setOnClickListener(v -> {
+        restartButton.setOnClickListener(v ->
+        {
             Intent intent = new Intent(VehicleNature.this, VictimeTemoin.class);
             startActivity(intent);
         });
 
 
         Button previousButton = this.findViewById(R.id.previous2);
-        previousButton.setOnClickListener(v -> {
+        previousButton.setOnClickListener(v ->
+        {
             Intent intent = new Intent(VehicleNature.this, AccidentNature.class);
             startActivity(intent);
         });
@@ -46,7 +50,8 @@ public class VehicleNature extends AppCompatActivity {
 
     }
 
-    private void goToMoreDetailsActivity() {
+    private void goToMoreDetailsActivity()
+    {
         Intent intent = new Intent(VehicleNature.this, MoreDetails.class);
         startActivity(intent);
     }

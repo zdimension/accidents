@@ -1,22 +1,15 @@
 package com.marcelmarsaislacoste.accidents_wearos;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-import static android.content.Context.LOCATION_SERVICE;
 import static com.marcelmarsaislacoste.accidents_wearos.Application.*;
 
 /**
@@ -28,8 +21,6 @@ public class MapFragment extends SupportMapFragment
 {
 
     private static final String TAG = "FRED_MapFragment";
-    private OnMapReadyCallback mapActivity;
-
 
 
     private LatLng currentLocation;
@@ -45,7 +36,7 @@ public class MapFragment extends SupportMapFragment
         super.onActivityCreated(savedInstanceState);
         // Create callback to parent activity
         try {
-            mapActivity = (OnMapReadyCallback) getActivity();
+            OnMapReadyCallback mapActivity = (OnMapReadyCallback) getActivity();
             getMapAsync(mapActivity);
         } catch (ClassCastException e) {
             throw new ClassCastException(e.toString()+ " must implement mapActivity");

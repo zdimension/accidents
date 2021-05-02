@@ -1,13 +1,12 @@
 package fr.ihm.accidents;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HumainEnDanger extends AppCompatActivity
 {
@@ -18,36 +17,34 @@ public class HumainEnDanger extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_humain_en_danger);
 
-        final TextView humainEnDangerTextView = (TextView) findViewById(R.id.textView2);
+        final TextView humainEnDangerTextView = findViewById(R.id.textView2);
 
         final Button button4 = findViewById(R.id.button4);
         button4.setBackgroundColor(Color.RED);
         button4.setTextColor(Color.BLACK);
-        button4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentWitnessYesCallActivity = new Intent(HumainEnDanger.this, WitnessYesCallActivity.class);
-                startActivity(intentWitnessYesCallActivity);
-            }
+        button4.setOnClickListener(v ->
+        {
+            Intent intentWitnessYesCallActivity = new Intent(HumainEnDanger.this,
+                WitnessYesCallActivity.class);
+            startActivity(intentWitnessYesCallActivity);
         });
 
         final Button button5 = findViewById(R.id.button5);
         button5.setBackgroundColor(Color.GREEN);
         button5.setTextColor(Color.BLACK);
-        button5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent natureAccident = new Intent(HumainEnDanger.this, AccidentNature.class);
-                HumainEnDanger.this.startActivity(natureAccident);
-            }
+        button5.setOnClickListener(v ->
+        {
+            Intent natureAccident = new Intent(HumainEnDanger.this, AccidentNature.class);
+            HumainEnDanger.this.startActivity(natureAccident);
         });
 
         final Button button6 = findViewById(R.id.button6);
         button6.setBackgroundColor(Color.BLUE);
         button6.setTextColor(Color.WHITE);
-        button6.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentVictimeTemoin = new Intent(HumainEnDanger.this, VictimeTemoin.class);
-                startActivity(intentVictimeTemoin);
-            }
+        button6.setOnClickListener(v ->
+        {
+            Intent intentVictimeTemoin = new Intent(HumainEnDanger.this, VictimeTemoin.class);
+            startActivity(intentVictimeTemoin);
         });
     }
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -25,6 +24,7 @@ import static fr.ihm.accidents.DemarageAplication.CHANNEL_ID_HIGH;
 public class WebService extends Service
 {
 
+    private static int last = 0;
     private HandlerThread handlerThread;
     private Handler handler;
     private int notificationNumber;
@@ -32,7 +32,8 @@ public class WebService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID_HIGH)
+        NotificationCompat.Builder notification =
+            new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID_HIGH)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("SERVICE")
             .setContentText("Web service")
@@ -56,34 +57,36 @@ public class WebService extends Service
         return START_STICKY;
     }
 
-    private static int last = 0;
-
     private void myFuncToUpdateLocation()
     {
-        try {
+        try
+        {
             URL Url = new URL("https://domino.zdimension.fr/web/ihm.php?after=" + last);
             URLConnection urlConnection = Url.openConnection();
             InputStream inputStream = urlConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String str = "";
-            str = bufferedReader.readLine();
+            String str = bufferedReader.readLine();
             JSONArray obj = new JSONArray(str);
             last += obj.length();
             //Log.i("SERVICE", obj.toString());
-            for(int i = 0; i < obj.length(); i++)
+            for (int i = 0; i < obj.length(); i++)
             {
                 JSONObject item = obj.getJSONObject(i);
-                NotificationHelper.sendAccidentNotif(this, item.getInt("distance"), item.getString("description"));
+                NotificationHelper.sendAccidentNotif(this, item.getInt("distance"),
+                    item.getString("description"));
             }
             //return str;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         handler.postDelayed(this::myFuncToUpdateLocation, 1000);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         handlerThread.quit();
     }

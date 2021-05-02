@@ -1,13 +1,12 @@
 package fr.ihm.accidents;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class VictimeTemoin extends AppCompatActivity
 {
@@ -18,26 +17,25 @@ public class VictimeTemoin extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victime_temoin);
 
-        final TextView victimeTemoinTextView = (TextView) findViewById(R.id.textView);
+        final TextView victimeTemoinTextView = findViewById(R.id.textView);
 
         final Button button = findViewById(R.id.button);
         button.setBackgroundColor(Color.GRAY);
         button.setTextColor(Color.BLACK);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentVictimCallActivity = new Intent(VictimeTemoin.this, VictimCallActivity.class);
-                startActivity(intentVictimCallActivity);
-            }
+        button.setOnClickListener(v ->
+        {
+            Intent intentVictimCallActivity = new Intent(VictimeTemoin.this,
+                VictimCallActivity.class);
+            startActivity(intentVictimCallActivity);
         });
 
         final Button button2 = findViewById(R.id.button2);
         button2.setBackgroundColor(Color.MAGENTA);
         button2.setTextColor(Color.BLACK);
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentHumainEnDanger = new Intent(VictimeTemoin.this, HumainEnDanger.class);
-                startActivity(intentHumainEnDanger);
-            }
+        button2.setOnClickListener(v ->
+        {
+            Intent intentHumainEnDanger = new Intent(VictimeTemoin.this, HumainEnDanger.class);
+            startActivity(intentHumainEnDanger);
         });
 
         /*final Button button3 = findViewById(R.id.button3);
@@ -51,11 +49,11 @@ public class VictimeTemoin extends AppCompatActivity
         });*/
 
         final Button testNotification = findViewById(R.id.test_notification);
-        testNotification.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intentMainActivity = new Intent(VictimeTemoin.this, NotificationActivity.class);
-                startActivity(intentMainActivity);
-            }
+        testNotification.setOnClickListener(v ->
+        {
+            Intent intentMainActivity = new Intent(VictimeTemoin.this,
+                NotificationActivity.class);
+            startActivity(intentMainActivity);
         });
     }
 }

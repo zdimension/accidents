@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="#f0999a"/>
+            <solid android:color="#f0999a" />
         </shape>
     </item>
-    <item android:drawable="@drawable/round_border"/>
+    <item android:drawable="@drawable/round_border" />
 </layer-list>

@@ -1,50 +1,25 @@
 package com.marcelmarsaislacoste.accidents_wearos;
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.wearable.activity.WearableActivity;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.NotificationCompat.WearableExtender;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Locale;
-import java.util.Objects;
-
-import static com.marcelmarsaislacoste.accidents_wearos.Application.EXTRA_EVENT_ID;
-import static com.marcelmarsaislacoste.accidents_wearos.Application.LAT_LNG1;
-import static com.marcelmarsaislacoste.accidents_wearos.Application.LAT_LNG2;
 
 // import static fr.ihm.accidents.DemarageAplication.*;
 
 public class MainActivity extends WearableActivity implements TextToSpeech.OnInitListener, LocationListener
 {
 
-    private TextView mTextView;
     private PendingIntent pendingIntent;
 
     // private LatLng oLatLng1 = new LatLng(37.422998333333335, -122.08500000000002);
@@ -58,16 +33,14 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextView = (TextView) findViewById(R.id.text);
+        TextView mTextView = findViewById(R.id.text);
 
         // Enables Always-on
         setAmbientEnabled();
 
         final Intent intentToGoogleMap = new Intent(MainActivity.this, Map.class);
 
-        ((Button)findViewById(R.id.toGoogleMap)).setOnClickListener(click -> {
-            startActivity(intentToGoogleMap);
-        });
+        findViewById(R.id.toGoogleMap).setOnClickListener(click -> startActivity(intentToGoogleMap));
 
         /* Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
         pendingIntent = PendingIntent.getActivity(MainActivity.this,0,intent,0); */
@@ -80,13 +53,9 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, Init.MY_DATA_CHECK_CODE);
 
-        ((Button)findViewById(R.id.notif)).setOnClickListener(click -> {
-            Init.notifyme(((Button)findViewById(R.id.notif)), this);
-        });
+        findViewById(R.id.notif).setOnClickListener(click -> Init.notifyme(((Button)findViewById(R.id.notif)), this));
 
-        ((Button)findViewById(R.id.report)).setOnClickListener(click -> {
-            Toast.makeText(this, "Position de l'accident envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_LONG).show();
-        });
+        findViewById(R.id.report).setOnClickListener(click -> Toast.makeText(this, "Position de l'accident envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_LONG).show());
 
         /*int notificationId = 001;
         // The channel ID of the notification.

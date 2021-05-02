@@ -10,13 +10,14 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
             <Button
                     android:text="Tout annuler"
                     android:layout_width="wrap_content"
@@ -26,7 +27,8 @@
                     app:layout_constraintBottom_toTopOf="@id/locationWitnessNoCall"
                     app:layout_constraintTop_toBottomOf="parent"
                     android:layout_marginTop="2dp"
-                    android:layout_marginLeft="2dp"/>
+                    android:layout_marginLeft="2dp" />
+
             <TextView
                     android:text="Localisation"
                     android:textAlignment="center"
@@ -39,7 +41,8 @@
                     app:layout_constraintBottom_toTopOf="@id/locationInfosWitnessNoCall"
                     android:textSize="36sp"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
+
             <TextView
                     android:text="Localisation infos"
                     android:textAlignment="center"
@@ -54,7 +57,8 @@
                     android:textSize="20sp"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
+
             <TextView
                     android:text="Appeler"
                     android:textAlignment="center"
@@ -68,7 +72,8 @@
                     android:textSize="36sp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
+
             <Button
                     android:text="SECOURS"
                     android:textColor="@color/black"
@@ -89,9 +94,9 @@
                     android:paddingBottom="30dp"
                     android:paddingHorizontal="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="15dp"/>
-            <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_marginTop="15dp" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     xmlns:tools="http://schemas.android.com/tools"
                     android:orientation="horizontal"
@@ -102,6 +107,7 @@
                     app:layout_constraintBottom_toTopOf="@id/infosToGiveTextWitnessNoCall"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp">
+
                 <TextView
                         android:text="Renseignements à donner durant l’appel"
                         android:textAlignment="center"
@@ -114,7 +120,8 @@
                         app:layout_constraintBottom_toTopOf="parent"
                         android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                 <ToggleButton
                         android:text="Renseignements à donner durant l’appel"
                         android:textOff="v"
@@ -130,8 +137,9 @@
                         android:textSize="20sp"
                         android:background="@color/white"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
             </LinearLayout>
+
             <TextView
                     android:text="Renseignements à donner durant l’appel"
                     android:textAlignment="center"
@@ -146,9 +154,9 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:visibility="gone"
-                    android:textColor="@color/black"/>
-            <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:textColor="@color/black" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     xmlns:tools="http://schemas.android.com/tools"
                     android:orientation="horizontal"
@@ -159,6 +167,7 @@
                     app:layout_constraintBottom_toTopOf="@id/firsttAidGesturesPngWitnessNoCall"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp">
+
                 <TextView
                         android:text="Gestes de Premiers Secours"
                         android:textOff=" Renseignements à donner durant l’appel"
@@ -174,7 +183,8 @@
                         android:layout_gravity="center"
                         android:background="@color/white"
                         android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
+
                 <ToggleButton
                         android:text="Gestes de Premiers Secours"
                         android:textOff="v"
@@ -190,8 +200,9 @@
                         android:layout_gravity="center"
                         android:background="@color/white"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
             </LinearLayout>
+
             <ImageView
                     android:text="Gestes de Premiers Secours"
                     android:textAlignment="center"
@@ -206,7 +217,8 @@
                     android:layout_gravity="center"
                     android:visibility="gone"
                     android:textColor="@color/black"
-                    android:src="@drawable/first_aid_gestures"/>
+                    android:src="@drawable/first_aid_gestures" />
+
             <Button
                     android:text="Précédent"
                     android:layout_width="match_parent"
@@ -219,7 +231,7 @@
                     app:layout_constraintTop_toBottomOf="@id/firsttAidGesturesPngWitnessNoCall"
                     app:layout_constraintHorizontal_bias="0.0"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="18dp"/>
+                    android:layout_marginBottom="18dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
