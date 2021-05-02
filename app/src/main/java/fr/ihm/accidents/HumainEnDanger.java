@@ -25,7 +25,8 @@ public class HumainEnDanger extends AppCompatActivity
         button4.setTextColor(Color.BLACK);
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intentWitnessYesCallActivity = new Intent(HumainEnDanger.this, WitnessYesCallActivity.class);
+                startActivity(intentWitnessYesCallActivity);
             }
         });
 

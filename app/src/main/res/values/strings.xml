@@ -2,4 +2,11 @@
     <string name="app_name">Accidents</string>
     <string name="title_activity_victim_call">VictimCallActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_witness_yes_call">WitnessYesCallActivity</string>
+    <string name="title_activity_witness_no_call">WitnessNoCallActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

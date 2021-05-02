@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class VictimCallActivity extends AppCompatActivity implements LocationListener
+public class WitnessYesCallActivity extends AppCompatActivity implements LocationListener
 {
 
     private ToggleButton toggleButtonInfosToGive;
@@ -38,10 +38,10 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_victim_call);
+        setContentView(R.layout.activity_witness_yes_call);
 
-        toggleButtonInfosToGive = (ToggleButton)findViewById(R.id.infosToGiveToggle);
-        infosToGiveText = (TextView)findViewById(R.id.infosToGiveText);
+        toggleButtonInfosToGive = (ToggleButton)findViewById(R.id.infosToGiveToggleWitnessYesCall);
+        infosToGiveText = (TextView)findViewById(R.id.infosToGiveTextWitnessYesCall);
         infosToGiveText.setText(Html.fromHtml("<h2>Où vous trouvez-vous ?</h2><p>Indiquez le lieu le plus précisément " +
             "possible pour permettre aux secours de vous trouver rapidement (ville, rue, numéro, " +
             " etc.).</p>" +
@@ -66,8 +66,8 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
 
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        toggleButtonFirstAidGestures = (ToggleButton)findViewById(R.id.firsttAidGesturesToggle);
-        firstAidGesturesImg = (ImageView)findViewById(R.id.firsttAidGesturesPng);
+        toggleButtonFirstAidGestures = (ToggleButton)findViewById(R.id.firsttAidGesturesToggleWitnessYesCall);
+        firstAidGesturesImg = (ImageView)findViewById(R.id.firsttAidGesturesPngWitnessYesCall);
         toggleButtonFirstAidGestures.setOnClickListener(click -> {
             if (toggleButtonFirstAidGestures.isChecked()) {
                 toggleButtonFirstAidGestures.setChecked(true);
@@ -78,12 +78,22 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        final Button previous = findViewById(R.id.previousVictimCall);
+        final Button previous = findViewById(R.id.previousWitnessYesCall);
         previous.setBackgroundColor(Color.BLUE);
         previous.setTextColor(Color.WHITE);
         previous.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intentVictimeTemoin = new Intent(VictimCallActivity.this, VictimeTemoin.class);
+                Intent intentVictimeTemoin = new Intent(WitnessYesCallActivity.this, HumainEnDanger.class);
+                startActivity(intentVictimeTemoin);
+            }
+        });
+
+        final Button cancel = findViewById(R.id.cancelWitnessYesCall);
+        cancel.setBackgroundColor(Color.BLUE);
+        cancel.setTextColor(Color.WHITE);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentVictimeTemoin = new Intent(WitnessYesCallActivity.this, VictimeTemoin.class);
                 startActivity(intentVictimeTemoin);
             }
         });
@@ -159,6 +169,6 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
             Log.d("GPS", TextUtils.join(System.getProperty("line.separator"), addressFragments));
             addressStr = TextUtils.join(System.getProperty("line.separator"), addressFragments);
         }
-        ((TextView)findViewById(R.id.locationInfos)).setText("Longitude : " + ((location==null)?"NaN":location.getLongitude()) + "\nLatitude : " + ((location==null)?"NaN":location.getLatitude()) + ((addressStr=="")?"":"\n" + addressStr));
+        ((TextView)findViewById(R.id.locationInfosWitnessYesCall)).setText("Longitude : " + ((location==null)?"NaN":location.getLongitude()) + "\nLatitude : " + ((location==null)?"NaN":location.getLatitude()) + ((addressStr=="")?"":"\n" + addressStr));
     }
 }
