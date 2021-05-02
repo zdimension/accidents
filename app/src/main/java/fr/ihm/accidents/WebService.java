@@ -11,6 +11,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -53,16 +56,25 @@ public class WebService extends Service
         return START_STICKY;
     }
 
+    private static int last = 0;
+
     private void myFuncToUpdateLocation()
     {
         try {
-            URL Url = new URL("https://domino.zdimension.fr/web/ihm.php");
+            URL Url = new URL("https://domino.zdimension.fr/web/ihm.php?after=" + last);
             URLConnection urlConnection = Url.openConnection();
             InputStream inputStream = urlConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String str = "";
             str = bufferedReader.readLine();
-            Log.i("SERVICE", str);
+            JSONArray obj = new JSONArray(str);
+            last += obj.length();
+            //Log.i("SERVICE", obj.toString());
+            for(int i = 0; i < obj.length(); i++)
+            {
+                JSONObject item = obj.getJSONObject(i);
+                NotificationHelper.sendAccidentNotif(this, item.getInt("distance"), item.getString("description"));
+            }
             //return str;
         } catch (Exception e) {
             e.printStackTrace();
