@@ -38,6 +38,12 @@ public class VictimeTemoin extends AppCompatActivity
             startActivity(intentHumainEnDanger);
         });
 
+        final Button button3 = findViewById(R.id.button3);
+        button3.setOnClickListener(v -> {
+            Intent intentMainActivity = new Intent(VictimeTemoin.this, MapsActivity.class);
+            startActivity(intentMainActivity);
+        });
+
         /*final Button button3 = findViewById(R.id.button3);
         button3.setBackgroundColor(Color.BLUE);
         button3.setTextColor(Color.WHITE);
@@ -48,12 +54,12 @@ public class VictimeTemoin extends AppCompatActivity
             }
         });*/
 
-        final Button testNotification = findViewById(R.id.test_notification);
+        /*final Button testNotification = findViewById(R.id.test_notification);
         testNotification.setOnClickListener(v ->
         {
             Intent intentMainActivity = new Intent(VictimeTemoin.this,
                 NotificationActivity.class);
             startActivity(intentMainActivity);
-        });
+        });*/
     }
 }
