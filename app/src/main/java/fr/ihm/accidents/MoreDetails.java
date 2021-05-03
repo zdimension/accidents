@@ -3,12 +3,14 @@ package fr.ihm.accidents;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +24,9 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MoreDetails extends AppCompatActivity
 {
@@ -31,12 +35,16 @@ public class MoreDetails extends AppCompatActivity
     private static final int REQUEST_IMAGE_PERMISSION = 2;
     private String currentPhotoPath;
     private TextView imgLocs;
+    private List<Bitmap> thumbnails;
+    private GridView gridView;
+    private ThumbnailsAdapter thumbnailsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_details);
+        this.thumbnails = new ArrayList<>();
 
         Button restartButton = findViewById(R.id.restart);
         restartButton.setOnClickListener(v ->
@@ -55,11 +63,14 @@ public class MoreDetails extends AppCompatActivity
         Button nextButton = findViewById(R.id.next_step);
         nextButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(MoreDetails.this, MapsActivity.class);
+            Intent intent = new Intent(MoreDetails.this, VictimCallActivity.class);
             startActivity(intent);
         });
 
         this.imgLocs = findViewById(R.id.photos_locations);
+        this.gridView = this.findViewById(R.id.images_list);
+        this.thumbnailsAdapter = new ThumbnailsAdapter(this, this.thumbnails);
+        gridView.setAdapter(this.thumbnailsAdapter);
 
         Button photoButton = findViewById(R.id.take_photo);
         if (this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
@@ -79,7 +90,7 @@ public class MoreDetails extends AppCompatActivity
                     File imageFile = createImageFile();
                     Uri photoURI = FileProvider.getUriForFile(MoreDetails.this,
                         "fr.ihm.accidents.fileprovider", imageFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
                 catch (IOException e)
@@ -113,9 +124,11 @@ public class MoreDetails extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
         {
-            this.imgLocs.setText(this.imgLocs.getText() + "\n" + this.currentPhotoPath);
-            /*Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");*/
+            //this.imgLocs.setText(this.imgLocs.getText() + "\n" + this.currentPhotoPath);
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            this.thumbnails.add(imageBitmap);
+            this.thumbnailsAdapter.notifyDataSetChanged();
         }
     }
 
