@@ -88,23 +88,13 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
             try
             {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
-                Toast.makeText(this, accident.getDouble("latitude") + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, accident.getDouble("latitude") + "" + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
         }
-        try
-        {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(Init.accidents.get(0).getDouble("latitude"), Init.accidents.get(0).getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
-            Toast.makeText(this, Init.accidents.get(0).getDouble("latitude") + Init.accidents.get(0).getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     @Override

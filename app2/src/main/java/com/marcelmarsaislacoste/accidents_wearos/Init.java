@@ -58,6 +58,7 @@ public class Init extends Application {
     public static boolean isTts = false;
 
     public static ArrayList<JSONObject> accidents;
+    public static ArrayList<JSONObject> accidentsNotications;
 
     private void createNotificationChannels()
     {
@@ -89,6 +90,7 @@ public class Init extends Application {
         super.onCreate();
         createNotificationChannels();
         accidents = new ArrayList<>();
+        accidentsNotications = new ArrayList<>();
     }
 
     public static void notifyme(View view, Activity a) {
@@ -273,28 +275,35 @@ public class Init extends Application {
         double longitude = location.getLongitude();
 
         // ArrayList<Double> distances = new ArrayList<>();
-        double distance = 10000;
+        double distance = 3000;
+        JSONObject accidentToPotentiallyRemove = null;
 
-        for (JSONObject accident: Init.accidents)
+        for (JSONObject accident: Init.accidentsNotications)
         {
             // double distance = Math.acos(Math.sin(Math.toRadians(LAT_LNG1.latitude)) * Math.sin(Math.toRadians(LAT_LNG2.latitude)) + Math.cos(Math.toRadians(LAT_LNG1.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.longitude) - Math.toRadians(LAT_LNG1.longitude))) * 6371 * 1000;
             double temp = Math.acos(Math.sin(Math.toRadians(latitude)) * Math.sin(Math.toRadians(accident.getDouble("latitude"))) + Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(accident.getDouble("latitude"))) * Math.cos(Math.toRadians(accident.getDouble("longitude")) - Math.toRadians(longitude))) * 6371 * 1000;
-            if (temp < distance)
+            if (temp < 3000 && temp < distance)
+            {
                 distance = temp;
+                accidentToPotentiallyRemove = accident;
+            }
         }
 
         if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
             if (distance < 1000) {
                 Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
+                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
             }
             else if (1000 <= distance && distance < 2000) {
                 Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_DEFAULT, distance, a);
+                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
             }
             else if (2000 <= distance && distance < 3000) {
                 Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_LOW, distance, a);
+                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
             }
             Init.time = System.currentTimeMillis();
             Init.isBegin = 0;

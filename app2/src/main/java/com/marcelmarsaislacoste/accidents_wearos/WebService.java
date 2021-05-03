@@ -23,7 +23,7 @@ import java.net.URLConnection;
 public class WebService extends Service
 {
 
-    private static int last = 0;
+    public static int last = 0;
     private HandlerThread handlerThread;
     private Handler handler;
     private int notificationNumber;
@@ -31,15 +31,15 @@ public class WebService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        /* NotificationCompat.Builder notification =
-            new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID_HIGH)
+        NotificationCompat.Builder notification =
+            new NotificationCompat.Builder(getApplicationContext(), "channel 3")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("SERVICE")
                 .setContentText("Web service")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
         Notification notif = notification.build();
         // Start the foreground service immediately.
-        startForeground((int) System.currentTimeMillis(), notif); */
+        startForeground((int) System.currentTimeMillis(), notif);
 
         handlerThread = new HandlerThread("MyLocationThread");
         handlerThread.setDaemon(true);
@@ -72,9 +72,10 @@ public class WebService extends Service
             {
                 JSONObject item = obj.getJSONObject(i);
                 Init.accidents.add(item);
-                Log.d("1111", "In for");
+                Init.accidentsNotications.add(item);
+                // Log.d("1111", "In for: " + item.getDouble("latitude") + "" + item.getDouble("longitude") + "");
             }
-            Log.d("2222", "Not in for");
+            // Log.d("2222", "Not in for");
             //return str;
         }
         catch (Exception e)
@@ -96,5 +97,11 @@ public class WebService extends Service
     public IBinder onBind(Intent intent)
     {
         return null;
+    }
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
     }
 }

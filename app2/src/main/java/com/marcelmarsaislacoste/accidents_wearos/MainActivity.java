@@ -17,7 +17,13 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Locale;
 
 // import static fr.ihm.accidents.DemarageAplication.*;
@@ -63,6 +69,57 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         findViewById(R.id.report).setOnClickListener(click -> {
             Toast.makeText(this, "Position envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_SHORT).show();
             Intent intentCallActivity = new Intent(MainActivity.this, CallActivity.class);
+
+            BufferedReader reader = null;
+            String text = "";
+
+            // Send data
+            try
+            {
+                // Defined URL  where to send data
+                URL url = new URL("https://domino.zdimension.fr/web/ihm.php?after=" + (++WebService.last));
+
+                // Send POST data request
+
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                JSONObject j = new JSONObject();
+                j.put("description", "");
+                j.put("distance", 0);
+                j.put("longitude", this.location.getLongitude());
+                j.put("latitude", this.location.getLatitude());
+                wr.write(String.valueOf(j));
+                wr.flush();
+
+                // Get the server response
+
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while((line = reader.readLine()) != null)
+                {
+                    // Append server response in string
+                    sb.append(line + "\n");
+                }
+                text = sb.toString();
+            }
+            catch(Exception ex)
+            {
+
+            }
+            finally
+            {
+                try
+                {
+                    reader.close();
+                }
+                catch(Exception ex) {}
+            }
+            // Show response on activity
+            Toast.makeText(this, text, Toast.LENGTH_SHORT);
             startActivity(intentCallActivity);
         });
 
