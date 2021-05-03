@@ -16,6 +16,8 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONException;
+
 import java.util.Locale;
 
 // import static fr.ihm.accidents.DemarageAplication.*;
@@ -80,6 +82,8 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                 Init.isTts = false;
             }
         });
+
+        startForegroundService(new Intent(this, WebService.class));
 
         /*int notificationId = 001;
         // The channel ID of the notification.
@@ -239,6 +243,13 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
     @Override
     public void onLocationChanged(@NonNull Location location) {
         this.location = location;
-        Init.locationChanged(this, location);
+        try
+        {
+            Init.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

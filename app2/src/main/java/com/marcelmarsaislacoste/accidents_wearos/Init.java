@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -28,6 +29,12 @@ import static com.marcelmarsaislacoste.accidents_wearos.Application.LAT_LNG2;
 
 import android.app.Application;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Init extends Application {
     public static PendingIntent pendingIntent;
 
@@ -36,6 +43,9 @@ public class Init extends Application {
 
     public static LocationManager lm;
 
+    public static final String CHANNEL_ID_LOW = "channel 1";
+    public static final String CHANNEL_ID_DEFAULT = "channel 2";
+    public static final String CHANNEL_ID_HIGH = "channel 3";
     public static final int PERMS_CALL_ID = 1234;
 
     // private LatLng oLatLng1 = new LatLng(37.422998333333335, -122.08500000000002);
@@ -46,6 +56,40 @@ public class Init extends Application {
     public static int isBegin = 1;
 
     public static boolean isTts = false;
+
+    public static ArrayList<JSONObject> accidents;
+
+    private void createNotificationChannels()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channelLow = new NotificationChannel(CHANNEL_ID_LOW, "Low " +
+                "important notification", NotificationManager.IMPORTANCE_LOW);
+            channelLow.setDescription("Notification channel for notifications of low importance");
+
+            NotificationChannel channelDefault = new NotificationChannel(CHANNEL_ID_DEFAULT,
+                "Medium important notification", NotificationManager.IMPORTANCE_DEFAULT);
+            channelDefault.setDescription("Notification channel for notifications of medium " +
+                "importance");
+
+            NotificationChannel channelHigh = new NotificationChannel(CHANNEL_ID_HIGH, "High " +
+                "important notification", NotificationManager.IMPORTANCE_HIGH);
+            channelHigh.setDescription("Notification channel for notifications of high importance");
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channelLow);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channelDefault);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channelHigh);
+        }
+    }
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+        createNotificationChannels();
+        accidents = new ArrayList<>();
+    }
 
     public static void notifyme(View view, Activity a) {
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
@@ -223,21 +267,33 @@ public class Init extends Application {
         }
     }
 
-    public static void locationChanged(Activity a, Location location) {
+    public static void locationChanged(Activity a, Location location) throws JSONException
+    {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        double distance = Math.acos(Math.sin(Math.toRadians(LAT_LNG1.latitude))*Math.sin(Math.toRadians(LAT_LNG2.latitude))+Math.cos(Math.toRadians(LAT_LNG1.latitude))*Math.cos(Math.toRadians(LAT_LNG2.latitude))*Math.cos(Math.toRadians(LAT_LNG2.longitude)-Math.toRadians(LAT_LNG1.longitude)))*6371*1000;
+        // ArrayList<Double> distances = new ArrayList<>();
+        double distance = 10000;
+
+        for (JSONObject accident: Init.accidents)
+        {
+            // double distance = Math.acos(Math.sin(Math.toRadians(LAT_LNG1.latitude)) * Math.sin(Math.toRadians(LAT_LNG2.latitude)) + Math.cos(Math.toRadians(LAT_LNG1.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.longitude) - Math.toRadians(LAT_LNG1.longitude))) * 6371 * 1000;
+            double temp = Math.acos(Math.sin(Math.toRadians(latitude)) * Math.sin(Math.toRadians(accident.getDouble("latitude"))) + Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(accident.getDouble("latitude"))) * Math.cos(Math.toRadians(accident.getDouble("longitude")) - Math.toRadians(longitude))) * 6371 * 1000;
+            if (temp < distance)
+                distance = temp;
+        }
 
         if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
-            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
             if (distance < 1000) {
+                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
             }
             else if (1000 <= distance && distance < 2000) {
+                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_DEFAULT, distance, a);
             }
             else if (2000 <= distance && distance < 3000) {
+                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
                 Init.notifyme(NotificationManager.IMPORTANCE_LOW, distance, a);
             }
             Init.time = System.currentTimeMillis();

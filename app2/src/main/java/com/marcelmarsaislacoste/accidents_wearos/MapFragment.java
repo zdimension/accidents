@@ -20,7 +20,7 @@ import static com.marcelmarsaislacoste.accidents_wearos.Application.*;
 public class MapFragment extends SupportMapFragment
 {
 
-    private static final String TAG = "FRED_MapFragment";
+    private static final String TAG = "MARCEL_MapFragment";
 
 
     private LatLng currentLocation;

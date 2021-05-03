@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class CallActivity extends WearableActivity implements TextToSpeech.OnIni
             /*Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + "5550123"));
             startActivity(callIntent);*/
-            // startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "5550123")));
+            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "5550123")));
         });
     }
 
@@ -123,7 +125,14 @@ public class CallActivity extends WearableActivity implements TextToSpeech.OnIni
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        Init.locationChanged(this, location);
+        try
+        {
+            Init.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
         List<Address> adresses = null;
         String addressStr = "";
         try

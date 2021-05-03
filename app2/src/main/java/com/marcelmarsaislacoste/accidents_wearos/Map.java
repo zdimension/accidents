@@ -17,8 +17,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -78,8 +82,29 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
         /*mMap.addMarker(new MarkerOptions().position(new LatLng(43.72679, 7.11952))
                                             .title("Polytech"));*/
         // mMap.addMarker(new MarkerOptions().position(LAT_LNG1).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8cercle48)));
-        mMap.addMarker(new MarkerOptions().position(LAT_LNG2).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+        // mMap.addMarker(new MarkerOptions().position(LAT_LNG2).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
+        for (JSONObject accident: Init.accidents) {
+            try
+            {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+                Toast.makeText(this, accident.getDouble("latitude") + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        try
+        {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(Init.accidents.get(0).getDouble("latitude"), Init.accidents.get(0).getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+            Toast.makeText(this, Init.accidents.get(0).getDouble("latitude") + Init.accidents.get(0).getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -153,6 +178,13 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        Init.locationChanged(this, location);
+        try
+        {
+            Init.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
