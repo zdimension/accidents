@@ -45,7 +45,8 @@
                 android:layout_marginLeft="4dip"
                 android:layout_marginRight="4dip"
                 android:background="@color/black"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/white"/>
 
         <TextView
                 android:id="@+id/label"

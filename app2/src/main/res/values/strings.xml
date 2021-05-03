@@ -9,4 +9,5 @@
     <string name="content">Message</string>
     <string name="wearTitle">Wear</string>
     <string name="google_maps_key">AIzaSyDPQ7XMR3iJq1-gMcbS66Z5z9Skq9Qbya4</string>
+    <string name="title_activity_call">CallActivity</string>
 </resources>

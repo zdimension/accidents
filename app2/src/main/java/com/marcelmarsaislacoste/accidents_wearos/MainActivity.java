@@ -2,14 +2,17 @@ package com.marcelmarsaislacoste.accidents_wearos;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.wearable.activity.WearableActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 
@@ -53,9 +56,30 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, Init.MY_DATA_CHECK_CODE);
 
-        findViewById(R.id.notif).setOnClickListener(click -> Init.notifyme(((Button)findViewById(R.id.notif)), this));
+        // findViewById(R.id.notif).setOnClickListener(click -> Init.notifyme(((Button)findViewById(R.id.notif)), this));
 
-        findViewById(R.id.report).setOnClickListener(click -> Toast.makeText(this, "Position de l'accident envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_LONG).show());
+        findViewById(R.id.report).setOnClickListener(click -> {
+            Toast.makeText(this, "Position envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_SHORT).show();
+            Intent intentCallActivity = new Intent(MainActivity.this, CallActivity.class);
+            startActivity(intentCallActivity);
+        });
+
+        ToggleButton toggleTts = (ToggleButton)findViewById(R.id.tts);
+        toggleTts.setOnClickListener(click ->
+        {
+            if (toggleTts.isChecked())
+            {
+                toggleTts.setChecked(true);
+                // toggleTts.setBackgroundColor(Color.argb(0, 0, 255, 0));
+                Init.isTts = true;
+            }
+            else
+            {
+                toggleTts.setChecked(false);
+                // toggleTts.setBackgroundColor(Color.argb(0, 255, 0, 0));
+                Init.isTts = false;
+            }
+        });
 
         /*int notificationId = 001;
         // The channel ID of the notification.

@@ -45,6 +45,8 @@ public class Init extends Application {
 
     public static int isBegin = 1;
 
+    public static boolean isTts = false;
+
     public static void notifyme(View view, Activity a) {
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle("Title on Page 1");
@@ -192,7 +194,8 @@ public class Init extends Application {
 
     public static void speakWords(String speech) {
         // speaker
-        Init.myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
+        if (isTts)
+            Init.myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public static void checkPermissions(Activity a) {

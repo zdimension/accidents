@@ -27,11 +27,27 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <Button
+            <!--<Button
                     android:id="@+id/notif"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Test notifications"/>
+                    android:text="Test notifications"/>-->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Autoriser Text To Speech : "
+                        android:textSize="12sp"/>
+                <ToggleButton
+                        android:id="@+id/tts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Test notifications"
+                        android:textSize="12sp"/>
+            </LinearLayout>
             <Button
                     android:id="@+id/report"
                     android:layout_width="match_parent"
