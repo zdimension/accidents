@@ -67,7 +67,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
         // findViewById(R.id.notif).setOnClickListener(click -> Init.notifyme(((Button)findViewById(R.id.notif)), this));
 
         findViewById(R.id.report).setOnClickListener(click -> {
-            Toast.makeText(this, "Position envoyée !\nLongitude : " + this.location.getLongitude() + "\nLatitude : " + this.location.getLatitude(), Toast.LENGTH_SHORT).show();
+
             Intent intentCallActivity = new Intent(MainActivity.this, CallActivity.class);
 
             BufferedReader reader = null;
@@ -77,19 +77,14 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
             try
             {
                 // Defined URL  where to send data
-                URL url = new URL("https://domino.zdimension.fr/web/ihm.php?after=" + (++WebService.last));
+                URL url = new URL("https://domino.zdimension.fr/web/ihm.php");
 
                 // Send POST data request
 
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                JSONObject j = new JSONObject();
-                j.put("description", "");
-                j.put("distance", 0);
-                j.put("longitude", this.location.getLongitude());
-                j.put("latitude", this.location.getLatitude());
-                wr.write(String.valueOf(j));
+                wr.write("accident=0&distance=50&longitude=" + this.location.getLongitude() + "&latitude=" + this.location.getLatitude());
                 wr.flush();
 
                 // Get the server response
@@ -119,7 +114,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                 catch(Exception ex) {}
             }
             // Show response on activity
-            Toast.makeText(this, text, Toast.LENGTH_SHORT);
+            // Toast.makeText(this, text, Toast.LENGTH_SHORT);
             startActivity(intentCallActivity);
         });
 
