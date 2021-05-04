@@ -1,10 +1,12 @@
 package com.marcelmarsaislacoste.accidents_wearos;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.wearable.activity.WearableActivity;
@@ -72,50 +74,62 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
 
             Intent intentCallActivity = new Intent(MainActivity.this, CallActivity.class);
 
-            BufferedReader reader = null;
-            String text = "";
 
-            // Send data
-            try
+            @SuppressLint("StaticFieldLeak") AsyncTask<Object, Object, Object> task = new AsyncTask<Object, Object, Object>()
             {
-                // Defined URL  where to send data
-                URL url = new URL("https://domino.zdimension.fr/web/ihm.php");
-
-                // Send POST data request
-
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                wr.write("accident=0&distance=50&longitude=" + this.location.getLongitude() + "&latitude=" + this.location.getLatitude());
-                wr.flush();
-
-                // Get the server response
-
-                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                // Read Server Response
-                while((line = reader.readLine()) != null)
+                @Override
+                protected Object doInBackground(Object[] objects)
                 {
-                    // Append server response in string
-                    sb.append(line + "\n");
+                    BufferedReader reader = null;
+                    String text = "";
+
+                    // Send data
+                    try
+                    {
+                        // Defined URL  where to send data
+                        URL url = new URL("https://domino.zdimension.fr/web/ihm.php");
+
+                        // Send POST data request
+
+                        URLConnection conn = url.openConnection();
+                        conn.setDoOutput(true);
+                        // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude());
+                        wr.flush();
+
+                        // Get the server response
+
+                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+
+                        // Read Server Response
+                        while((line = reader.readLine()) != null)
+                        {
+                            // Append server response in string
+                            sb.append(line + "\n");
+                        }
+                        text = sb.toString();
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            reader.close();
+                        }
+                        catch(Exception ex) {}
+                    }
+                    return null;
                 }
-                text = sb.toString();
-            }
-            catch(Exception ex)
-            {
-                ex.printStackTrace();
-            }
-            finally
-            {
-                try
-                {
-                    reader.close();
-                }
-                catch(Exception ex) {}
-            }
+            };
+
+            task.execute();
+
             // Show response on activity
             // Toast.makeText(this, text, Toast.LENGTH_SHORT);
             startActivity(intentCallActivity);
