@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +23,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -28,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MoreDetails extends AppCompatActivity
+public class MoreDetails extends AppCompatActivity implements LocationListener
 {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -140,5 +144,49 @@ public class MoreDetails extends AppCompatActivity
         File image = File.createTempFile(imageFileName, ".jpg", externalFilesDir);
         this.currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DemarageAplication.checkPermissions(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (DemarageAplication.lm != null) {
+            DemarageAplication.lm.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        try
+        {
+            DemarageAplication.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

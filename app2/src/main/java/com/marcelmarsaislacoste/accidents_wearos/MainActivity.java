@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -83,7 +85,8 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
 
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
                 wr.write("accident=0&distance=50&longitude=" + this.location.getLongitude() + "&latitude=" + this.location.getLatitude());
                 wr.flush();
 
@@ -103,7 +106,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
             }
             catch(Exception ex)
             {
-
+                ex.printStackTrace();
             }
             finally
             {

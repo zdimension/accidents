@@ -23,6 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener
 {
 
@@ -92,5 +94,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
             location.getLongitude()), 15));
         Log.i("GoogleMapsActivity", "Location changed");
+        try
+        {
+            DemarageAplication.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DemarageAplication.checkPermissions(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (DemarageAplication.lm != null) {
+            DemarageAplication.lm.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
     }
 }

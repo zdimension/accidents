@@ -3,15 +3,27 @@ package fr.ihm.accidents;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DemarageAplication extends Application
@@ -25,6 +37,11 @@ public class DemarageAplication extends Application
     public static long time = System.currentTimeMillis();
 
     public static int isBegin = 1;
+
+    public static PendingIntent pendingIntent;
+
+    public static ArrayList<JSONObject> accidents;
+    public static ArrayList<JSONObject> accidentsNotications;
 
     public static void checkPermissions(Activity a)
     {
@@ -84,5 +101,31 @@ public class DemarageAplication extends Application
     {
         super.onCreate();
         createNotificationChannels();
+        accidents = new ArrayList<>();
+        accidentsNotications = new ArrayList<>();
+    }
+
+    public static void locationChanged(Activity a, Location location) throws JSONException
+    {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        // ArrayList<Double> distances = new ArrayList<>();
+        double distance = 3000;
+        JSONObject accidentToPotentiallyRemove = null;
+
+        for (JSONObject accident: DemarageAplication.accidentsNotications)
+        {
+            // double distance = Math.acos(Math.sin(Math.toRadians(LAT_LNG1.latitude)) * Math.sin(Math.toRadians(LAT_LNG2.latitude)) + Math.cos(Math.toRadians(LAT_LNG1.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.latitude)) * Math.cos(Math.toRadians(LAT_LNG2.longitude) - Math.toRadians(LAT_LNG1.longitude))) * 6371 * 1000;
+            double temp = Math.acos(Math.sin(Math.toRadians(latitude)) * Math.sin(Math.toRadians(accident.getDouble("latitude"))) + Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(accident.getDouble("latitude"))) * Math.cos(Math.toRadians(accident.getDouble("longitude")) - Math.toRadians(longitude))) * 6371 * 1000;
+            if (temp < 3000 && temp < distance)
+            {
+                distance = temp;
+                accidentToPotentiallyRemove = accident;
+            }
+        }
+
+        if (accidentToPotentiallyRemove != null)
+            NotificationHelper.sendAccidentNotif(a, distance, "pas d'informations", accidentToPotentiallyRemove);
     }
 }

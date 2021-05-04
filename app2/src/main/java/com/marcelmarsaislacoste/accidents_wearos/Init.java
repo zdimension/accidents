@@ -289,24 +289,24 @@ public class Init extends Application {
             }
         }
 
-        if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
-            if (distance < 1000) {
-                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
-                Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
-                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
-            }
-            else if (1000 <= distance && distance < 2000) {
-                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
-                Init.notifyme(NotificationManager.IMPORTANCE_DEFAULT, distance, a);
-                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
-            }
-            else if (2000 <= distance && distance < 3000) {
-                Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
-                Init.notifyme(NotificationManager.IMPORTANCE_LOW, distance, a);
-                Init.accidentsNotications.remove(accidentToPotentiallyRemove);
-            }
-            Init.time = System.currentTimeMillis();
-            Init.isBegin = 0;
+        // if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
+        if (distance < 1000) {
+            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
+            Init.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
+        else if (1000 <= distance && distance < 2000) {
+            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            Init.notifyme(NotificationManager.IMPORTANCE_DEFAULT, distance, a);
+            Init.accidentsNotications.remove(accidentToPotentiallyRemove);
+        }
+        else if (2000 <= distance && distance < 3000) {
+            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            Init.notifyme(NotificationManager.IMPORTANCE_LOW, distance, a);
+            Init.accidentsNotications.remove(accidentToPotentiallyRemove);
+        }
+        // Init.time = System.currentTimeMillis();
+        // Init.isBegin = 0;
+        // }
     }
 }

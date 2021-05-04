@@ -1,14 +1,19 @@
 package fr.ihm.accidents;
 
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class NotificationActivity extends AppCompatActivity
+import org.json.JSONException;
+
+public class NotificationActivity extends AppCompatActivity implements LocationListener
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,7 +28,7 @@ public class NotificationActivity extends AppCompatActivity
         notificationButton.setOnClickListener(v ->
         {
             int progress = seekBar.getProgress() * 3;
-            NotificationHelper.sendAccidentNotif(this, progress, "pas d'informations");
+            NotificationHelper.sendAccidentNotif(this, progress, "pas d'informations", null);
         });
 
         final Button PreviousButton = findViewById(R.id.previous_button);
@@ -56,5 +61,49 @@ public class NotificationActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DemarageAplication.checkPermissions(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (DemarageAplication.lm != null) {
+            DemarageAplication.lm.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        try
+        {
+            DemarageAplication.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -51,7 +51,7 @@ public class WebService extends Service
 
         // Sample code (which should call handler.postDelayed()
         // in the function as well to create the repetitive task.)
-        handler.postDelayed(this::myFuncToUpdateLocation, 1000);
+        handler.postDelayed(this::myFuncToUpdateLocation, 1);
 
         return START_STICKY;
     }
@@ -82,7 +82,7 @@ public class WebService extends Service
         {
             e.printStackTrace();
         }
-        handler.postDelayed(this::myFuncToUpdateLocation, 1000);
+        handler.postDelayed(this::myFuncToUpdateLocation, 1);
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class MainActivity extends AppCompatActivity
+import org.json.JSONException;
+
+public class MainActivity extends AppCompatActivity implements LocationListener
 {
 
     public static final int REQUEST_GPS = 0;
@@ -85,6 +89,50 @@ public class MainActivity extends AppCompatActivity
                 }
                 this.goToVictimeTemoinActivity();
             }
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DemarageAplication.checkPermissions(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (DemarageAplication.lm != null) {
+            DemarageAplication.lm.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        try
+        {
+            DemarageAplication.locationChanged(this, location);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
         }
     }
 }
