@@ -31,7 +31,7 @@ import org.json.JSONObject;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener
 {
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private LocationManager locManager;
     private SupportMapFragment mapFragment;
 
@@ -90,15 +90,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         for (JSONObject accident: DemarageAplication.accidents) {
-            try
-            {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
-                // Toast.makeText(this, accident.getDouble("latitude") + "" + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+            addAccident(accident);
+        }
+    }
+
+    public static void addAccident(JSONObject accident)
+    {
+        if (mMap == null)
+            return;
+        try
+        {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+            // Toast.makeText(this, accident.getDouble("latitude") + "" + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
         }
     }
 

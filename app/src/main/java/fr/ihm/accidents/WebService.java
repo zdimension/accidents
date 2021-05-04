@@ -77,6 +77,7 @@ public class WebService extends Service
                 JSONObject item = obj.getJSONObject(i);
                 DemarageAplication.accidents.add(item);
                 DemarageAplication.accidentsNotications.add(item);
+                MapsActivity.addAccident(item);
             }
             //return str;
         }
