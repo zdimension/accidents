@@ -55,7 +55,7 @@
                     android:text="Signaler"/>
             <Button
                     android:id="@+id/toGoogleMap"
-                    android:text="Map"
+                    android:text="Carte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </LinearLayout>
