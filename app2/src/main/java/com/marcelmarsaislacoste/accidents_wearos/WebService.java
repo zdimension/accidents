@@ -37,7 +37,7 @@ public class WebService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         NotificationCompat.Builder notification =
-            new NotificationCompat.Builder(getApplicationContext(), "channel 3")
+            new NotificationCompat.Builder(getApplicationContext(), "channel 1")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("SERVICE")
                 .setContentText("Web service")
@@ -77,7 +77,8 @@ public class WebService extends Service
             {
                 JSONObject item = obj.getJSONObject(i);
                 Init.accidents.add(item);
-                Init.accidentsNotications.add(item);
+                if (Init.ANDROID_ID.equals(item.get("id")) == false)
+                    Init.accidentsNotications.add(item);
                 /* if (isPosted) {
                     if (i > 0)
                         Init.accidentsNotications.add(item);

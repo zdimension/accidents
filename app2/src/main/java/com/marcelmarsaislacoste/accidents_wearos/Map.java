@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import static com.marcelmarsaislacoste.accidents_wearos.Application.*;
@@ -37,6 +38,10 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
     /*private double lat1 = 37.422998333333335;
     private double lon1 = -122.08500000000002;*/
     // private LatLng oLatLng1 = new LatLng(37.422998333333335, -122.08500000000002);
+
+    private ArrayList<JSONObject> accidentToMarked = null;
+
+    public static Location location = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +69,15 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, Init.MY_DATA_CHECK_CODE);
+
+        if (accidentToMarked == null)
+            accidentToMarked = new ArrayList<>();
+        else
+            accidentToMarked.clear();
+        for (JSONObject accident: Init.accidents)
+        {
+            accidentToMarked.add(accident);
+        }
     }
 
 
@@ -84,7 +98,7 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
         // mMap.addMarker(new MarkerOptions().position(LAT_LNG1).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8cercle48)));
         // mMap.addMarker(new MarkerOptions().position(LAT_LNG2).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
-        for (JSONObject accident: Init.accidents) {
+        for (JSONObject accident: accidentToMarked) {
             try
             {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
@@ -168,6 +182,19 @@ public class Map extends FragmentActivity implements OnMapReadyCallback, TextToS
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        this.location = location;
+        for (int i = accidentToMarked.size(); i < Init.accidents.size(); i++)
+        {
+            accidentToMarked.add(Init.accidents.get(i));
+            try
+            {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(Init.accidents.get(i).getDouble("latitude"), Init.accidents.get(i).getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
         try
         {
             Init.locationChanged(this, location);

@@ -27,7 +27,7 @@ public class NotificationHelper
         {
             // i = 0;
             String title = "Un accident " + HINTS[0] + " de vous ! " + description;
-            String text = "Un accident a été signalé a une distance de " + progress + "m de vous";
+            String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
             sendNotificationOnChannel(sender, title, text, CHANNELS[0], PRIORITIES[0]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);
@@ -36,7 +36,7 @@ public class NotificationHelper
         {
             // i = 1;
             String title = "Un accident " + HINTS[1] + " de vous ! " + description;
-            String text = "Un accident a été signalé a une distance de " + progress + "m de vous";
+            String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
             sendNotificationOnChannel(sender, title, text, CHANNELS[1], PRIORITIES[1]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);
@@ -45,7 +45,7 @@ public class NotificationHelper
         {
             // i = 2;
             String title = "Un accident " + HINTS[2] + " de vous ! " + description;
-            String text = "Un accident a été signalé a une distance de " + progress + "m de vous";
+            String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
             sendNotificationOnChannel(sender, title, text, CHANNELS[2], PRIORITIES[2]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);

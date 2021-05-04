@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class DemarageAplication extends Application
 {
@@ -42,6 +43,8 @@ public class DemarageAplication extends Application
 
     public static ArrayList<JSONObject> accidents;
     public static ArrayList<JSONObject> accidentsNotications;
+
+    public static final String ANDROID_ID = UUID.randomUUID().toString();
 
     public static void checkPermissions(Activity a)
     {
@@ -126,6 +129,6 @@ public class DemarageAplication extends Application
         }
 
         if (accidentToPotentiallyRemove != null)
-            NotificationHelper.sendAccidentNotif(a, distance, "pas d'informations", accidentToPotentiallyRemove);
+            NotificationHelper.sendAccidentNotif(a, distance, /*"pas d'informations"*/"", accidentToPotentiallyRemove);
     }
 }

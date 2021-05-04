@@ -20,6 +20,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import static fr.ihm.accidents.DemarageAplication.CHANNEL_ID_HIGH;
+import static fr.ihm.accidents.DemarageAplication.CHANNEL_ID_LOW;
 
 public class WebService extends Service
 {
@@ -33,7 +34,7 @@ public class WebService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         NotificationCompat.Builder notification =
-            new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID_HIGH)
+            new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID_LOW)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("SERVICE")
             .setContentText("Web service")
@@ -52,7 +53,7 @@ public class WebService extends Service
 
         // Sample code (which should call handler.postDelayed()
         // in the function as well to create the repetitive task.)
-        handler.postDelayed(this::myFuncToUpdateLocation, 1);
+        handler.postDelayed(this::myFuncToUpdateLocation, 10);
 
         return START_STICKY;
     }
@@ -76,8 +77,9 @@ public class WebService extends Service
                     // item.getString("description"));
                 JSONObject item = obj.getJSONObject(i);
                 DemarageAplication.accidents.add(item);
-                DemarageAplication.accidentsNotications.add(item);
-                MapsActivity.addAccident(item);
+                if (DemarageAplication.ANDROID_ID.equals(item.get("id")) == false)
+                    DemarageAplication.accidentsNotications.add(item);
+                // MapsActivity.addAccident(item);
             }
             //return str;
         }
@@ -85,7 +87,7 @@ public class WebService extends Service
         {
             e.printStackTrace();
         }
-        handler.postDelayed(this::myFuncToUpdateLocation, 1);
+        handler.postDelayed(this::myFuncToUpdateLocation, 10);
     }
 
     @Override

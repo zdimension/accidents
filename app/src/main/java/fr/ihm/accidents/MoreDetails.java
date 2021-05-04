@@ -101,7 +101,7 @@ public class MoreDetails extends AppCompatActivity implements LocationListener
                         // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                         BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
                         // locationTemp = new LatLng(location.getLatitude(), location.getLongitude());
-                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=");
+                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=" + DemarageAplication.ANDROID_ID);
                         wr.flush();
 
                         // Get the server response
@@ -136,7 +136,7 @@ public class MoreDetails extends AppCompatActivity implements LocationListener
             };
 
             task.execute();
-            WebService.last++;
+            // WebService.last++;
 
             startActivity(intent);
         });

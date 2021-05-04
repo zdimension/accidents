@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Init extends Application {
     public static PendingIntent pendingIntent;
@@ -59,6 +60,8 @@ public class Init extends Application {
 
     public static ArrayList<JSONObject> accidents;
     public static ArrayList<JSONObject> accidentsNotications;
+
+    public static final String ANDROID_ID = UUID.randomUUID().toString();
 
     private void createNotificationChannels()
     {
@@ -111,11 +114,11 @@ public class Init extends Application {
             String id = "channel_1";
             String description = "143";
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(id, description, importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_HIGH, description, importance);
             //                     channel.enableLights(true);
             //                     channel.enableVibration(true);
             manager.createNotificationChannel(channel);
-            Notification notification = new Notification.Builder(a, id)
+            Notification notification = new Notification.Builder(a, CHANNEL_ID_HIGH)
                 .setCategory(Notification.CATEGORY_MESSAGE)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Attention !")
@@ -136,7 +139,7 @@ public class Init extends Application {
         else
         {
             //When sdk version is less than26
-            Notification notification = new NotificationCompat.Builder(a)
+            Notification notification = new NotificationCompat.Builder(a, CHANNEL_ID_HIGH)
                 .setContentTitle("Attention !")
                 .setContentText("Accident à 200 mètres.")
                 .setContentIntent(pendingIntent)
@@ -172,11 +175,11 @@ public class Init extends Application {
             String id = "channel_1";
             String description = "143";
             // int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(id, description, importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_HIGH, description, importance);
             //                     channel.enableLights(true);
             //                     channel.enableVibration(true);
             manager.createNotificationChannel(channel);
-            Notification notification = new Notification.Builder(a, id)
+            Notification notification = new Notification.Builder(a, CHANNEL_ID_HIGH)
                 .setCategory(Notification.CATEGORY_MESSAGE)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Attention !")
@@ -205,7 +208,7 @@ public class Init extends Application {
         else
         {
             //When sdk version is less than26
-            Notification notification = new NotificationCompat.Builder(a)
+            Notification notification = new NotificationCompat.Builder(a, CHANNEL_ID_HIGH)
                 .setContentTitle("Attention !")
                 .setContentText("Accident à " + (int)Math.floor(distance) + " mètres.")
                 .setContentIntent(Init.pendingIntent)
@@ -291,17 +294,17 @@ public class Init extends Application {
 
         // if (Init.isBegin == 1 || Init.time + 200 * 60 < System.currentTimeMillis()) {
         if (distance < 1000) {
-            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            // Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
             Init.notifyme(NotificationManager.IMPORTANCE_HIGH, distance, a);
             Init.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
         else if (1000 <= distance && distance < 2000) {
-            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            // Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
             Init.notifyme(NotificationManager.IMPORTANCE_DEFAULT, distance, a);
             Init.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
         else if (2000 <= distance && distance < 3000) {
-            Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
+            // Toast.makeText(a, "Location: " + latitude + "/" + longitude + ", distance : " + distance, Toast.LENGTH_LONG).show();
             Init.notifyme(NotificationManager.IMPORTANCE_LOW, distance, a);
             Init.accidentsNotications.remove(accidentToPotentiallyRemove);
         }

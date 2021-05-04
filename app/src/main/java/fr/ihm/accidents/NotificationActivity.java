@@ -28,7 +28,7 @@ public class NotificationActivity extends AppCompatActivity implements LocationL
         notificationButton.setOnClickListener(v ->
         {
             int progress = seekBar.getProgress() * 3;
-            NotificationHelper.sendAccidentNotif(this, progress, "pas d'informations", null);
+            NotificationHelper.sendAccidentNotif(this, progress, /*"pas d'informations"*/"", null);
         });
 
         final Button PreviousButton = findViewById(R.id.previous_button);

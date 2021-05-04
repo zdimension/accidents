@@ -28,12 +28,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener
 {
 
     private static GoogleMap mMap;
     private LocationManager locManager;
     private SupportMapFragment mapFragment;
+
+    private ArrayList<JSONObject> accidentToMarked = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +55,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
         {
             mapFragment.getMapAsync(this);
+        }
+        if (accidentToMarked == null)
+            accidentToMarked = new ArrayList<>();
+        else
+            accidentToMarked.clear();
+        for (JSONObject accident: DemarageAplication.accidents)
+        {
+            accidentToMarked.add(accident);
         }
     }
 
@@ -81,15 +93,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 if (location != null)
                 {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
                 }
             });
         }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        for (JSONObject accident: DemarageAplication.accidents) {
+        for (JSONObject accident: accidentToMarked) {
             addAccident(accident);
         }
     }
@@ -111,7 +123,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        Log.i("GoogleMapsActivity", "Location changed");
+        // Log.i("GoogleMapsActivity", "Location changed");
+        for (int i = accidentToMarked.size(); i < DemarageAplication.accidents.size(); i++)
+        {
+            accidentToMarked.add(DemarageAplication.accidents.get(i));
+            try
+            {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(DemarageAplication.accidents.get(i).getDouble("latitude"), DemarageAplication.accidents.get(i).getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
         try {
             DemarageAplication.locationChanged(this, location);
         } catch (JSONException e) {

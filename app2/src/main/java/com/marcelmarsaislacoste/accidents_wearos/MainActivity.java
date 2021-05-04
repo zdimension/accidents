@@ -101,7 +101,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                         // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                         BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
                         // locationTemp = new LatLng(location.getLatitude(), location.getLongitude());
-                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=");
+                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=" + Init.ANDROID_ID);
                         wr.flush();
 
                         // Get the server response
@@ -140,7 +140,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                 WebService.loc = new LatLng(locationTemp.latitude, locationTemp.longitude);
             locationTemp = null; */
             task.execute();
-            WebService.last++;
+            // WebService.last++;
             // WebService.isPosted = true;
 
             // Show response on activity

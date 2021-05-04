@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     public static final int REQUEST_GPS = 0;
 
-    private Location location;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,65 +75,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private void goToVictimeTemoinActivity()
     {
         Intent intentVictimeTemoin = new Intent(MainActivity.this, VictimeTemoin.class);
-
-        @SuppressLint("StaticFieldLeak") AsyncTask<Object, Object, Object> task = new AsyncTask<Object, Object, Object>()
-        {
-            @Override
-            protected Object doInBackground(Object[] objects)
-            {
-                BufferedReader reader = null;
-                String text = "";
-
-                // Send data
-                try
-                {
-                    // Defined URL  where to send data
-                    URL url = new URL("https://domino.zdimension.fr/web/ihm.php");
-
-                    // Send POST data request
-
-                    URLConnection conn = url.openConnection();
-                    conn.setDoOutput(true);
-                    // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                    // locationTemp = new LatLng(location.getLatitude(), location.getLongitude());
-                    wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=");
-                    wr.flush();
-
-                    // Get the server response
-
-                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-
-                    // Read Server Response
-                    while((line = reader.readLine()) != null)
-                    {
-                        // Append server response in string
-                        sb.append(line + "\n");
-                    }
-                    text = sb.toString();
-                    Log.d("SERV", text);
-                }
-                catch(Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-                finally
-                {
-                    try
-                    {
-                        reader.close();
-                    }
-                    catch(Exception ex) {}
-                }
-                return null;
-            }
-        };
-
-        task.execute();
-        WebService.last++;
-
         startActivity(intentVictimeTemoin);
     }
 
@@ -153,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                         Manifest.permission.ACCESS_FINE_LOCATION))
                     {
                         Toast toast = Toast.makeText(this, "La géocalisation permet de savoir " +
-                            "plus rapidement où vous êtes et ainsi d'aider les ambulanciers.",
-                            Toast.LENGTH_LONG); //TODO vraiment ambulanciers ?
+                            "plus rapidement où vous êtes et ainsi d'aider les secours.",
+                            Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
@@ -197,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        this.location = location;
         try
         {
             DemarageAplication.locationChanged(this, location);
