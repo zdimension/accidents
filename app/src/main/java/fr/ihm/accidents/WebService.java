@@ -24,7 +24,7 @@ import static fr.ihm.accidents.DemarageAplication.CHANNEL_ID_HIGH;
 public class WebService extends Service
 {
 
-    private static int last = 0;
+    public static int last = 0;
     private HandlerThread handlerThread;
     private Handler handler;
     private int notificationNumber;

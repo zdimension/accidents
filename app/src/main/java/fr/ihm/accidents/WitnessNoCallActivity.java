@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -110,6 +111,10 @@ public class WitnessNoCallActivity extends AppCompatActivity implements Location
             Intent intentVictimeTemoin = new Intent(WitnessNoCallActivity.this,
                 VictimeTemoin.class);
             startActivity(intentVictimeTemoin);
+        });
+
+        findViewById(R.id.rescueWitnessNoCall).setOnClickListener(click -> {
+            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "15")));
         });
     }
 

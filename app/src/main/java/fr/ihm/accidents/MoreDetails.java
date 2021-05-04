@@ -1,15 +1,18 @@
 package fr.ihm.accidents;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -25,8 +28,14 @@ import androidx.core.content.FileProvider;
 
 import org.json.JSONException;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +51,8 @@ public class MoreDetails extends AppCompatActivity implements LocationListener
     private List<Bitmap> thumbnails;
     private GridView gridView;
     private ThumbnailsAdapter thumbnailsAdapter;
+
+    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +78,66 @@ public class MoreDetails extends AppCompatActivity implements LocationListener
         Button nextButton = findViewById(R.id.next_step);
         nextButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(MoreDetails.this, VictimCallActivity.class);
+            Intent intent = new Intent(MoreDetails.this, WitnessNoCallActivity.class);
+
+            @SuppressLint("StaticFieldLeak") AsyncTask<Object, Object, Object> task = new AsyncTask<Object, Object, Object>()
+            {
+                @Override
+                protected Object doInBackground(Object[] objects)
+                {
+                    BufferedReader reader = null;
+                    String text = "";
+
+                    // Send data
+                    try
+                    {
+                        // Defined URL  where to send data
+                        URL url = new URL("https://domino.zdimension.fr/web/ihm.php");
+
+                        // Send POST data request
+
+                        URLConnection conn = url.openConnection();
+                        conn.setDoOutput(true);
+                        // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                        // locationTemp = new LatLng(location.getLatitude(), location.getLongitude());
+                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=");
+                        wr.flush();
+
+                        // Get the server response
+
+                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+
+                        // Read Server Response
+                        while((line = reader.readLine()) != null)
+                        {
+                            // Append server response in string
+                            sb.append(line + "\n");
+                        }
+                        text = sb.toString();
+                        Log.d("SERV", text);
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            reader.close();
+                        }
+                        catch(Exception ex) {}
+                    }
+                    return null;
+                }
+            };
+
+            task.execute();
+            WebService.last++;
+
             startActivity(intent);
         });
 
@@ -180,6 +250,7 @@ public class MoreDetails extends AppCompatActivity implements LocationListener
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        this.location = location;
         try
         {
             DemarageAplication.locationChanged(this, location);
