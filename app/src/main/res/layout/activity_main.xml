@@ -8,26 +8,25 @@
 
     <TextView
             android:text="Pour ne pas perdre de temps pour aider ou se faire aider, activez la géocalisation."
-            android:layout_width="368dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/text_view_id"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/button_id"
-            app:layout_constraintVertical_bias="0.781"
             android:textSize="36sp"
             android:textAlignment="center" />
 
     <Button
             android:text="Demander la permission"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_id"
+        android:layout_marginTop="50px"
             app:layout_constraintTop_toBottomOf="@+id/text_view_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.948"
             android:textSize="36sp" />
 
 

@@ -33,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LocationManager locManager;
+    private SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,8 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-            .findFragmentById(R.id.map);
+        this.mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         this.locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!this.locManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
@@ -103,17 +103,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location)
-    {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
-            location.getLongitude()), 15));
+    public void onLocationChanged(@NonNull Location location) {
         Log.i("GoogleMapsActivity", "Location changed");
-        try
-        {
+        try {
             DemarageAplication.locationChanged(this, location);
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
