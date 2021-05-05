@@ -21,6 +21,7 @@ public class NotificationHelper
         CHANNEL_ID_HIGH };
     private static final String[] HINTS = { "proche", "près", "très proche" };
     private static int notificationNumber = 0;
+    private static String groupeNotification = "GroupeNotification";
 
     public static void sendAccidentNotif(Context sender, double progress, String description, JSONObject accidentToPotentiallyRemove)
     {
@@ -72,7 +73,6 @@ public class NotificationHelper
         }
         else
         {
-            String groupeNotification = "GroupeNotification";
             notification = new NotificationCompat.Builder(sender.getApplicationContext(), channelID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(title)
