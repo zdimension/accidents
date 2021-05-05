@@ -1,6 +1,8 @@
 package fr.ihm.accidents;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -55,6 +57,9 @@ public class NotificationHelper
     public static void sendNotificationOnChannel(Context sender, String title, String description
         , String channelID, int priority)
     {
+        Intent intent = new Intent(sender.getApplicationContext(), MapsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(sender.getApplicationContext(), 0, intent, 0);
         NotificationCompat.Builder notification;
         if (priority == NotificationCompat.PRIORITY_HIGH)
         {
@@ -62,7 +67,8 @@ public class NotificationHelper
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(title)
                 .setContentText(description)
-                .setPriority(priority);
+                .setPriority(priority)
+                .setContentIntent(pendingIntent);
         }
         else
         {
@@ -72,7 +78,8 @@ public class NotificationHelper
                 .setContentTitle(title)
                 .setContentText(description)
                 .setPriority(priority)
-                .setGroup(groupeNotification);
+                .setGroup(groupeNotification)
+                .setContentIntent(pendingIntent);
         }
         NotificationManagerCompat.from(sender).notify(notificationNumber++, notification.build());
     }
