@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -26,14 +27,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, Observer
 {
 
     private GoogleMap mMap;
     private LocationManager locManager;
-    private SupportMapFragment mapFragment;
+    private AccidentModel model;
+    private AccidentController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,8 +46,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        this.mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         this.locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        this.model = new AccidentModel();
+        this.controller = new AccidentController(this.model);
+        this.controller.addObserver(this);
         if (!this.locManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -52,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             mapFragment.getMapAsync(this);
         }
+        Button refresh = this.findViewById(R.id.refresh);
+        refresh.setOnClickListener(v -> this.controller.refresh());
     }
 
     /**
@@ -89,16 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        for (JSONObject accident: DemarageAplication.accidents) {
-            try
-            {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getDouble("latitude"), accident.getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
-                // Toast.makeText(this, accident.getDouble("latitude") + "" + accident.getDouble("longitude") + "", Toast.LENGTH_SHORT).show();
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+        for (Accident accident: this.model.getAccidents()) {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(accident.getLatitude(), accident.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
         }
     }
 
@@ -142,5 +144,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof List) {
+            List<Accident> accidents = (List<Accident>) arg;
+            for (Accident accident : accidents)
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(accident.getLatitude(), accident.getLongitude()))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
+        }
     }
 }

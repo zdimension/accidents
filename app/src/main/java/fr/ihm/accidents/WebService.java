@@ -75,7 +75,6 @@ public class WebService extends Service
                 // NotificationHelper.sendAccidentNotif(this, item.getInt("distance"),
                     // item.getString("description"));
                 JSONObject item = obj.getJSONObject(i);
-                DemarageAplication.accidents.add(item);
                 DemarageAplication.accidentsNotications.add(item);
             }
             //return str;

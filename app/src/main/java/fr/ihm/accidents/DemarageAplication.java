@@ -40,7 +40,6 @@ public class DemarageAplication extends Application
 
     public static PendingIntent pendingIntent;
 
-    public static ArrayList<JSONObject> accidents;
     public static ArrayList<JSONObject> accidentsNotications;
 
     public static void checkPermissions(Activity a)
@@ -101,7 +100,6 @@ public class DemarageAplication extends Application
     {
         super.onCreate();
         createNotificationChannels();
-        accidents = new ArrayList<>();
         accidentsNotications = new ArrayList<>();
     }
 
