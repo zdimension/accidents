@@ -9,7 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -27,8 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -41,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AccidentModel model;
     private AccidentController controller;
 
-    private ArrayList<JSONObject> accidentToMarked = null;
+    private ArrayList<Accident> accidentToMarked = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,12 +66,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             accidentToMarked = new ArrayList<>();
         else
             accidentToMarked.clear();
-        for (JSONObject accident: DemarageAplication.accidents)
-        {
-            accidentToMarked.add(accident);
-        }
+        accidentToMarked.addAll(model.getAccidents());
         Button refresh = this.findViewById(R.id.refresh);
         refresh.setOnClickListener(v -> this.controller.refresh());
+        Button mainMenu = this.findViewById(R.id.returnMainMenu);
+        mainMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(MapsActivity.this, VictimeTemoin.class);
+            startActivity(intent);
+        });
     }
 
     /**
@@ -118,17 +119,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(@NonNull Location location) {
         // Log.i("GoogleMapsActivity", "Location changed");
-        for (int i = accidentToMarked.size(); i < DemarageAplication.accidents.size(); i++)
+        for (int i = accidentToMarked.size(); i < this.model.getAccidents().size(); i++)
         {
-            accidentToMarked.add(DemarageAplication.accidents.get(i));
-            try
-            {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(DemarageAplication.accidents.get(i).getDouble("latitude"), DemarageAplication.accidents.get(i).getDouble("longitude"))).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+            accidentToMarked.add(this.model.getAccidents().get(i));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(this.model.getAccidents().get(i).getLatitude(),this.model.getAccidents().get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_small)));
         }
         try {
             DemarageAplication.locationChanged(this, location);

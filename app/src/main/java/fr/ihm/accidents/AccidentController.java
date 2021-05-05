@@ -43,24 +43,21 @@ public class AccidentController extends Observable {
                 String str = bufferedReader.readLine();
                 JSONArray obj = new JSONArray(str);
                 last += obj.length();
-                //Log.i("SERVICE", obj.toString());
                 List<Accident> newAccidents = new ArrayList<>();
                 for (int i = 0; i < obj.length(); i++)
                 {
-                    // JSONObject item = obj.getJSONObject(i);
-                    // NotificationHelper.sendAccidentNotif(this, item.getInt("distance"),
-                    // item.getString("description"));
                     JSONObject item = obj.getJSONObject(i);
                     Accident accident = new Accident(item.getDouble("latitude"), item.getDouble("longitude"));
                     model.addAccident(accident);
                     DemarageAplication.accidentsNotications.add(item);
                     newAccidents.add(accident);
                 }
-                this.mainHandler.post(() -> {
-                    this.setChanged();
-                    this.notifyObservers(newAccidents);
-                });
-                //return str;
+                if(!newAccidents.isEmpty()) {
+                    this.mainHandler.post(() -> {
+                        this.setChanged();
+                        this.notifyObservers(newAccidents);
+                    });
+                }
             }
             catch (Exception e)
             {
