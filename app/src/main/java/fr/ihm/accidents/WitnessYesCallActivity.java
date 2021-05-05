@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -110,6 +111,10 @@ public class WitnessYesCallActivity extends AppCompatActivity implements Locatio
             Intent intentVictimeTemoin = new Intent(WitnessYesCallActivity.this,
                 VictimeTemoin.class);
             startActivity(intentVictimeTemoin);
+        });
+
+        findViewById(R.id.rescueWitnessYesCall).setOnClickListener(click -> {
+            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "15")));
         });
     }
 

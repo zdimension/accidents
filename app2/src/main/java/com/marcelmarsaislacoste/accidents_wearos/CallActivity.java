@@ -53,7 +53,7 @@ public class CallActivity extends WearableActivity implements TextToSpeech.OnIni
             /*Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + "5550123"));
             startActivity(callIntent);*/
-            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "5550123")));
+            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "15")));
         });
     }
 

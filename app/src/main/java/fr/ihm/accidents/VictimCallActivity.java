@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -99,6 +100,10 @@ public class VictimCallActivity extends AppCompatActivity implements LocationLis
             Intent intentVictimeTemoin = new Intent(VictimCallActivity.this,
                 VictimeTemoin.class);
             startActivity(intentVictimeTemoin);
+        });
+
+        findViewById(R.id.rescue).setOnClickListener(click -> {
+            startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + "15")));
         });
     }
 

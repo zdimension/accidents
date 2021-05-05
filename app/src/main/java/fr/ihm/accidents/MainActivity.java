@@ -1,12 +1,15 @@
 package fr.ihm.accidents;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
@@ -82,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                         Manifest.permission.ACCESS_FINE_LOCATION))
                     {
                         Toast toast = Toast.makeText(this, "La géocalisation permet de savoir " +
-                            "plus rapidement où vous êtes et ainsi d'aider les ambulanciers.",
-                            Toast.LENGTH_LONG); //TODO vraiment ambulanciers ?
+                            "plus rapidement où vous êtes et ainsi d'aider les secours.",
+                            Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }

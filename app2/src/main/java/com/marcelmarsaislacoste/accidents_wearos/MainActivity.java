@@ -8,8 +8,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +45,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
     // private LatLng oLatLng2 = new LatLng(37.423998333333335, -122.08600000000002);
 
     private Location location;
+    // private LatLng locationTemp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,7 +100,8 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                         conn.setDoOutput(true);
                         // OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                         BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude());
+                        // locationTemp = new LatLng(location.getLatitude(), location.getLongitude());
+                        wr.write("accident=0&distance=50&longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude() + "&id=" + Init.ANDROID_ID);
                         wr.flush();
 
                         // Get the server response
@@ -111,6 +117,7 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                             sb.append(line + "\n");
                         }
                         text = sb.toString();
+                        Log.d("SERV", text);
                     }
                     catch(Exception ex)
                     {
@@ -128,7 +135,13 @@ public class MainActivity extends WearableActivity implements TextToSpeech.OnIni
                 }
             };
 
+            /* WebService.isPosted = true;
+            if (locationTemp != null)
+                WebService.loc = new LatLng(locationTemp.latitude, locationTemp.longitude);
+            locationTemp = null; */
             task.execute();
+            // WebService.last++;
+            // WebService.isPosted = true;
 
             // Show response on activity
             // Toast.makeText(this, text, Toast.LENGTH_SHORT);

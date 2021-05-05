@@ -3,6 +3,7 @@ package com.marcelmarsaislacoste.accidents_wearos;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -10,6 +11,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,12 +30,14 @@ public class WebService extends Service
     private HandlerThread handlerThread;
     private Handler handler;
     private int notificationNumber;
+    public static boolean isPosted = false;
+    // public static LatLng loc = null;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         NotificationCompat.Builder notification =
-            new NotificationCompat.Builder(getApplicationContext(), "channel 3")
+            new NotificationCompat.Builder(getApplicationContext(), "channel 1")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("SERVICE")
                 .setContentText("Web service")
@@ -51,7 +56,7 @@ public class WebService extends Service
 
         // Sample code (which should call handler.postDelayed()
         // in the function as well to create the repetitive task.)
-        handler.postDelayed(this::myFuncToUpdateLocation, 1);
+        handler.postDelayed(this::myFuncToUpdateLocation, 10);
 
         return START_STICKY;
     }
@@ -72,7 +77,23 @@ public class WebService extends Service
             {
                 JSONObject item = obj.getJSONObject(i);
                 Init.accidents.add(item);
-                Init.accidentsNotications.add(item);
+                if (Init.ANDROID_ID.equals(item.get("id")) == false)
+                    Init.accidentsNotications.add(item);
+                /* if (isPosted) {
+                    if (i > 0)
+                        Init.accidentsNotications.add(item);
+                } else {
+                    Init.accidentsNotications.add(item);
+                } */
+                /* if (isPosted) {
+                    if (loc != null && item.getDouble("latitude") != loc.latitude && item.getDouble("longitude") != loc.longitude)
+                    {
+                        Init.accidentsNotications.add(item);
+                        Log.d("HAEY", loc.latitude + "" + loc.longitude);
+                    }
+                } else {
+                    Init.accidentsNotications.add(item);
+                } */
                 // Log.d("1111", "In for: " + item.getDouble("latitude") + "" + item.getDouble("longitude") + "");
             }
             // Log.d("2222", "Not in for");
@@ -82,7 +103,12 @@ public class WebService extends Service
         {
             e.printStackTrace();
         }
-        handler.postDelayed(this::myFuncToUpdateLocation, 1);
+        /* if (isPosted)
+        {
+            isPosted = false;
+            loc = null;
+        } */
+        handler.postDelayed(this::myFuncToUpdateLocation, 10);
     }
 
     @Override
