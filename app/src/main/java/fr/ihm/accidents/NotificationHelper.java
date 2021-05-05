@@ -20,18 +20,26 @@ public class NotificationHelper
     private static final String[] CHANNELS = { CHANNEL_ID_LOW, CHANNEL_ID_DEFAULT,
         CHANNEL_ID_HIGH };
     private static final String[] HINTS = { "proche", "près", "très proche" };
-    private static int notificationNumber = 0;
-    private static String groupeNotification = "GroupeNotification";
+    private static final NotificationHelper instance = new NotificationHelper();
+    private int notificationNumber = 0;
+    private final String groupeNotification = "GroupeNotification";
 
-    public static void sendAccidentNotif(Context sender, double progress, String description, JSONObject accidentToPotentiallyRemove)
+    public static NotificationHelper getInstance()
+    {
+        return instance;
+    }
+
+    public void sendAccidentNotif(Context sender, double progress, String description,
+                                  JSONObject accidentToPotentiallyRemove)
     {
         // int i;
         if (2000 <= progress && progress < 3000)
         {
             // i = 0;
             String title = "Un accident " + HINTS[0] + " de vous ! " + description;
-            String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
-            sendNotificationOnChannel(sender, title, text, CHANNELS[0], PRIORITIES[0]);
+            String text = "Un accident a été signalé a une distance de " + (int)progress +
+                "m de vous";
+            NotificationHelper.this.sendNotificationOnChannel(sender, title, text, CHANNELS[0], PRIORITIES[0]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
@@ -40,7 +48,7 @@ public class NotificationHelper
             // i = 1;
             String title = "Un accident " + HINTS[1] + " de vous ! " + description;
             String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
-            sendNotificationOnChannel(sender, title, text, CHANNELS[1], PRIORITIES[1]);
+            NotificationHelper.this.sendNotificationOnChannel(sender, title, text, CHANNELS[1], PRIORITIES[1]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
@@ -49,13 +57,13 @@ public class NotificationHelper
             // i = 2;
             String title = "Un accident " + HINTS[2] + " de vous ! " + description;
             String text = "Un accident a été signalé a une distance de " + (int)progress + "m de vous";
-            sendNotificationOnChannel(sender, title, text, CHANNELS[2], PRIORITIES[2]);
+            NotificationHelper.this.sendNotificationOnChannel(sender, title, text, CHANNELS[2], PRIORITIES[2]);
             if (accidentToPotentiallyRemove != null)
                 DemarageAplication.accidentsNotications.remove(accidentToPotentiallyRemove);
         }
     }
 
-    public static void sendNotificationOnChannel(Context sender, String title, String description
+    public void sendNotificationOnChannel(Context sender, String title, String description
         , String channelID, int priority)
     {
         Intent intent = new Intent(sender.getApplicationContext(), MapsActivity.class);
@@ -78,9 +86,9 @@ public class NotificationHelper
                 .setContentTitle(title)
                 .setContentText(description)
                 .setPriority(priority)
-                .setGroup(groupeNotification)
+                .setGroup(NotificationHelper.this.groupeNotification)
                 .setContentIntent(pendingIntent);
         }
-        NotificationManagerCompat.from(sender).notify(notificationNumber++, notification.build());
+        NotificationManagerCompat.from(sender).notify(NotificationHelper.this.notificationNumber++, notification.build());
     }
 }

@@ -127,6 +127,6 @@ public class DemarageAplication extends Application
         }
 
         if (accidentToPotentiallyRemove != null)
-            NotificationHelper.sendAccidentNotif(a, distance, /*"pas d'informations"*/"", accidentToPotentiallyRemove);
+            NotificationHelper.getInstance().sendAccidentNotif(a, distance, /*"pas d'informations"*/"", accidentToPotentiallyRemove);
     }
 }
